@@ -1,9 +1,15 @@
 #boks1 {
     border: 1px, solid, black;
+    height: 100%;
+    width: 25%;
 }
 #boks2 {
     border: 1px, solid, black;
+    height: 100%;
+    width: 50%;
 }
 #boks3 {
     border: 1px, solid, black;
+    height: 100%;
+    width: 25%;
 }
