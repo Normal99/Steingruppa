@@ -15,7 +15,7 @@ app.use(express.json());
 
 let db;
 client.connect().then(() => {
-  db = client.db("stein").collection("steiner");
+  db = client.db("Stein").collection("Steiner");
   console.log("Connected to MongoDB");
 });
 

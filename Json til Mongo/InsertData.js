@@ -12,8 +12,8 @@ async function insertData() {
     console.log("Connected to MongoDB");
 
     // Access the database and collection
-    const db = client.db("stein");
-    const collection = db.collection("steiner");
+    const db = client.db("Stein");
+    const collection = db.collection("Steiner");
 
     // Read the JSON file
     const data = JSON.parse(fs.readFileSync('data.json', 'utf8'));
