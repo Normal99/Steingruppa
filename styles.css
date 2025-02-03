@@ -3,17 +3,22 @@ body {
     justify-content: space-around;
 }
 
-#boks1 {
+#hoved{
+    display: flex;
+    flex-direction: row;
+}
+
+#profil {
     border: 1px, solid, black;
     height: 100vh;
     width: 25%;
 }
-#boks2 {
+#stein {
     border: 1px, solid, black;
     height: 100vh;
     width: 40%;
 }
-#boks3 {
+#sok {
     border: 1px, solid, black;
     height: 100vh;
     width: 25%;
