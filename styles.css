@@ -6,8 +6,9 @@ body {
     overflow-y: hidden;
 }
 
-#søkefelt
-
+#søkefelt {
+    width: 100%;
+}
 #logo {
     width: auto;
     height: 75px;
