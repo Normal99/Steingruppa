@@ -4,11 +4,30 @@ body {
     justify-content: space-around;
     flex-direction: column;
     overflow-y: hidden;
+    overflow-x: hidden;
 }
 
+#søkefelt {
+    width: 100%;
+
+}
+
+#søkeboks {
+    display: flex;
+    border: 1px, solid, black;
+    height: 3em;
+}
+#søkeknapp {
+    width: 20%;
+    height: 100%;
+}
 #logo {
     width: auto;
     height: 75px;
+}
+
+#logo:hover {
+    opacity: 0.75;
 }
 
 #hoved{
@@ -19,6 +38,9 @@ body {
 }
 
 #profil {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     border: 1px, solid, black;
     height: 100%;
     width: 60%;
@@ -32,6 +54,20 @@ body {
     border: 1px, solid, black;
     height: 100%;
     width: 70%;
+}
+#profil-instillinger{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    gap: 80px;
+}
+#profil-instillinger button{
+    border-radius: 4px;
+    width: 80%;
+    height: 5%;
 }
 nav{
     display: flex;
