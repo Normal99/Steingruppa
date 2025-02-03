@@ -8,6 +8,17 @@ body {
 
 #søkefelt {
     width: 100%;
+
+}
+
+#søkeboks {
+    display: flex;
+    border: 1px, solid, black;
+    height: 3em;
+}
+#søkeknapp {
+    width: 20%;
+    height: 100%;
 }
 #logo {
     width: auto;
