@@ -6,6 +6,11 @@ body {
     overflow-y: hidden;
 }
 
+#logo {
+    width: auto;
+    height: 75px;
+}
+
 #hoved{
     display: flex;
     flex-direction: row;
