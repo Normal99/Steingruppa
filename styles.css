@@ -6,6 +6,9 @@ body {
     overflow-y: hidden;
 }
 
+#søkefelt {
+    width: 100%;
+}
 #logo {
     width: auto;
     height: 75px;
@@ -38,6 +41,9 @@ body {
     width: 70%;
 }
 nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     border: 1px solid black;
     margin-bottom: 20px;
     padding: 20px;
