@@ -3,13 +3,11 @@ body {
     display: flex;
     justify-content: space-around;
     flex-direction: column;
-    overflow-y: hidden;
     overflow-x: hidden;
 }
 
 #søkefelt {
     width: 100%;
-
 }
 
 #søkeboks {
@@ -51,6 +49,8 @@ body {
     width: 100%;
 }
 #sok {
+    display: flex;
+    flex-direction: column;
     border: 1px, solid, black;
     height: 100%;
     width: 70%;
@@ -68,6 +68,13 @@ body {
     border-radius: 4px;
     width: 80%;
     height: 5%;
+}
+#stein-samling{
+    height: 100%;
+}
+#leggtilKnapp {
+    width: 100%;   
+    height: 4em;
 }
 nav{
     display: flex;
