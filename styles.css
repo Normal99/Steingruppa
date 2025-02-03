@@ -11,6 +11,10 @@ body {
     height: 75px;
 }
 
+#logo:hover {
+    opacity: 0.75;
+}
+
 #hoved{
     display: flex;
     flex-direction: row;
