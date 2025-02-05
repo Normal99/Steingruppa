@@ -3,12 +3,21 @@ body {
     display: flex;
     justify-content: space-around;
     flex-direction: column;
-    overflow-y: hidden;
     overflow-x: hidden;
 }
 
 #søkefelt {
     width: 100%;
+}
+
+#søkeboks {
+    display: flex;
+    border: 1px, solid, black;
+    height: 3em;
+}
+#søkeknapp {
+    width: 20%;
+    height: 100%;
 }
 #logo {
     width: auto;
@@ -40,6 +49,8 @@ body {
     width: 100%;
 }
 #sok {
+    display: flex;
+    flex-direction: column;
     border: 1px, solid, black;
     height: 100%;
     width: 70%;
@@ -58,8 +69,17 @@ body {
     width: 80%;
     height: 5%;
 }
+<<<<<<< HEAD
 #profil-instillinger button:hover{
     transform: scale(1.02);
+=======
+#stein-samling{
+    height: 100%;
+}
+#leggtilKnapp {
+    width: 100%;   
+    height: 4em;
+>>>>>>> b70be9dd9530b5cc98be94808ef66a63b5f74dfc
 }
 nav{
     display: flex;
