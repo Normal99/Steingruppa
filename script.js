@@ -1,4 +1,4 @@
-    // Function to fetch and display data
+    // Function to fetch and display data (Ikke-fungerende)
     async function fetchData() {
         try {
           const response = await fetch('http://localhost:3000/api/stones');
