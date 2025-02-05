@@ -6,6 +6,13 @@ body {
     overflow-x: hidden;
 }
 
+h2 {
+    font-family: "Nunito", serif;
+}
+
+button {
+    font-family: "Nunito Sans", serif;
+}
 #søkefelt {
     width: 100%;
 }
