@@ -74,7 +74,7 @@ button {
     gap: 80px;
 }
 #profil-instillinger button{
-    border-radius: 4px;
+    border-radius: 15px;
     width: 80%;
     height: 5%;
 }
