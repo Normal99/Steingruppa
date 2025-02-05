@@ -22,12 +22,41 @@ client.connect().then(() => {
 // API endpoint to fetch data
 app.get('/api/stones', async (req, res) => {
   try {
-    const data = await db.find({}).toArray();
-    res.status(200).json(data);
+      const { søkefelt, filterKasse, filterSteingruppe, filterId, filterSted } = req.query;
+      const query = {};
+
+      if (søkefelt) {
+          query.$or = [
+              { kasse: { $regex: søkefelt, $options: 'i' } },
+              { steingruppe: { $regex: søkefelt, $options: 'i' } },
+              { id: { $regex: søkefelt, $options: 'i' } },
+              { sted: { $regex: søkefelt, $options: 'i' } }
+          ];
+      }
+
+      if (filterKasse) query.kasse = { $regex: filterKasse, $options: 'i' };
+      if (filterSteingruppe) query.steingruppe = { $regex: filterSteingruppe, $options: 'i' };
+      if (filterId) query.id = { $regex: filterId, $options: 'i' };
+      if (filterSted) query.sted = { $regex: filterSted, $options: 'i' };
+
+      const data = await db.find(query).toArray();
+      res.status(200).json(data);
   } catch (error) {
-    res.status(500).send({ message: "Error fetching data", error });
+      res.status(500).send({ message: "Error fetching data", error });
   }
 });
+
+// API endpoint to add a new stone
+app.post('/api/stones', async (req, res) => {
+  try {
+      const newStone = req.body;
+      const result = await db.insertOne(newStone);
+      res.status(201).json(result);
+  } catch (error) {
+      res.status(500).send({ message: "Error adding stone", error });
+  }
+});
+
 
 // Start the server
 app.listen(port, () => {
