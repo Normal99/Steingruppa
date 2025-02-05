@@ -1,3 +1,8 @@
+:root{
+    --main: /*hoved farge her*/;
+    /*legg til andre farge temaer*/
+}
+
 body {
     margin: 0;
     display: flex;
@@ -80,7 +85,7 @@ button {
     gap: 80px;
 }
 #profil-instillinger button{
-    border-radius: 4px;
+    border-radius: 15px;
     width: 80%;
     height: 5%;
 }
@@ -101,4 +106,11 @@ nav{
     border: 1px solid black;
     margin-bottom: 20px;
     padding: 20px;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
 }
