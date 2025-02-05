@@ -78,21 +78,15 @@ button {
     width: 80%;
     height: 5%;
 }
-<<<<<<< HEAD
 #profil-instillinger button:hover{
     transform: scale(1.02);
-=======
+}
 #stein-samling{
     height: 100%;
 }
 #leggtilKnapp {
     width: 100%;   
     height: 4em;
-<<<<<<< HEAD
->>>>>>> b70be9dd9530b5cc98be94808ef66a63b5f74dfc
-=======
-
->>>>>>> 4822c52e3e3dde25a9b9e0da857d33d9d15f4ae1
 }
 nav{
     display: flex;
