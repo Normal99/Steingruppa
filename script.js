@@ -1,7 +1,12 @@
 // Function to fetch data from the server and update the table
 async function fetchData() {
   try {
-      // Get the values from the input fields
+      // Bruk objekter her for å fylle inn hva enn
+      //const {allesteiner} = require('./mongoDB til object');
+      //console.log(allesteiner)
+      //noe sånt er ikke sikker, forstår ikke koden
+
+
       const søkefelt = document.getElementById('søkefelt').value;
       const filterKasse = document.getElementById('filter-kasse').value;
       const filterSteingruppe = document.getElementById('filter-steingruppe').value;
