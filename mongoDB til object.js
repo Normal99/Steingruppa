@@ -33,3 +33,4 @@ async function getObject() {
 getObject();
 
 module.exports = {allesteiner}
+//bruk allesteiner for nettsiden

@@ -47,41 +47,7 @@ async function fetchData() {
   }
 }
 
-// Function to add a new stone
-async function addStone() {
-  try {
-      // Get the values from the input fields
-      const kasse = document.getElementById('new-kasse').value;
-      const steingruppe = document.getElementById('new-steingruppe').value;
-      const id = document.getElementById('new-id').value;
-      const sted = document.getElementById('new-sted').value;
 
-      // Create a new stone object with the input values
-      const newStone = { kasse, steingruppe, id, sted };
-
-      // Send a POST request to the server to add the new stone
-      const response = await fetch('http://localhost:3000/api/stones', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(newStone)
-      });
-
-      // Check if the response is successful
-      if (response.ok) {
-          alert('Stone added successfully');
-          fetchData(); // Refresh the table data
-      } else {
-          // Handle errors if the response is not successful
-          const errorData = await response.json();
-          alert(`Error adding stone: ${errorData.message}`);
-      }
-  } catch (error) {
-      // Log any errors that occur during the fetch
-      console.error('Error adding stone:', error);
-  }
-}
 
 // Function to toggle the visibility of the add stone form ved det mennesklig ord betyr dette at man viser greia for å adde steinene bare når du trykker på knappen.
 function toggleAddStoneForm() {
