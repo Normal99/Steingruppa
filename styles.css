@@ -138,6 +138,10 @@ button {
 }
 #stein-samling{
     overflow: auto; /* Enables scrolling when content overflows */
+    margin-top: 2%;
+}
+#filters{
+    margin-top: 1%;
 }
 nav {
     display: flex;
