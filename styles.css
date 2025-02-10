@@ -39,31 +39,56 @@ header {
     font-family: "Nunito Sans", serif;
 }
 
-/* Telefon Layout */
+/* Mobile Layout Adjustments */
 @media screen and (max-width: 768px) {
     header {
-        display: none !important; /* Ensure it gets hidden */
+        display: none !important; /* Hide the header on small screens */
     }
     
     #hoved {
         flex-direction: column !important;
-        height: auto; /* Prevents overflow issues */
-        width: 100vw !important; /* Make it full width */
+        height: auto; /* Prevent overflow issues */
+        width: 100vw !important; /* Full width for the main container */
     }
 
     #profil {
-        width: 100% !important; /* Make it full width */
-        display: none; /* Keep it hidden by default */
+        width: 100% !important; /* Ensure it takes up the full width */
+        display: none; /* Keep it hidden */
     }
 
     #stein, #sok {
-        width: 100% !important; /* Adjust width */
+        width: 100% !important; /* Ensure these take up full width */
     }
+
     .footer1 {
-        display: none !important; /* Ensure it gets hidden */
+        display: none !important; /* Hide footer1 on phone layout */
     }
+
     footer {
-        bottom: 0;
+        display: flex;
+        flex-direction: column;
+        background-color: #8E8D81;
+        padding: 20px 0; /* Add vertical padding for spacing */
+        width: 100%;
+        position: relative;
+        box-sizing: border-box;
+        margin-top: 55%;
+    }
+
+    #logoFT {
+        width: 60px; /* Make logo smaller on mobile */
+        height: auto;
+        padding: 5px 0;
+    }
+
+    #kontaktFooter {
+        margin-top: 15px; /* Reduced margin for a better fit */
+        font-size: 0.9rem; /* Smaller font size */
+    }
+
+    /* Ensure content doesn't overlap the footer */
+    body {
+        box-sizing: border-box;
     }
 }
 
