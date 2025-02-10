@@ -12,9 +12,13 @@ body {
     font-family: "Nunito", serif;
 }
 
+#velkommen {
+    font-size: 100%;
+}
 nav h2 {
     font-family: "Nunito", serif;
-    margin-right: 12%;
+    margin-right: 12rem;
+    font-size: 100%;
 }
 
 #logo {
@@ -33,6 +37,12 @@ header {
     display: flex;
     background-color: #8E8D81;
     font-family: "Nunito Sans", serif;
+}
+
+@media (max-width: 768px) {
+    header {
+        display: none; 
+    }
 }
 
 #sprak{
