@@ -12,9 +12,13 @@ body {
     font-family: "Nunito", serif;
 }
 
+#velkommen {
+    font-size: 100%;
+}
 nav h2 {
     font-family: "Nunito", serif;
-    margin-right: 12%;
+    margin-right: 12rem;
+    font-size: 100%;
 }
 
 #logo {
@@ -33,6 +37,28 @@ header {
     display: flex;
     background-color: #8E8D81;
     font-family: "Nunito Sans", serif;
+}
+
+/* Telefon Layout */
+@media screen and (max-width: 768px) {
+    header {
+        display: none !important; /* Ensure it gets hidden */
+    }
+    
+    #hoved {
+        flex-direction: column !important;
+        height: auto; /* Prevents overflow issues */
+        width: 100vw !important; /* Make it full width */
+    }
+
+    #profil {
+        width: 100% !important; /* Make it full width */
+        display: none; /* Keep it hidden by default */
+    }
+
+    #stein, #sok {
+        width: 100% !important; /* Adjust width */
+    }
 }
 
 #sprak{
@@ -95,7 +121,7 @@ button {
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: 99vh;
+    height: 100vh;
 }
 
 #profil {
@@ -153,7 +179,7 @@ button {
 #profil-instillinger button{
     border-radius: 15px;
     width: 80%;
-    height: 5%;
+    height: 2rem;
 }
 #profil-instillinger button:hover{
     transform: scale(1.02);
@@ -182,11 +208,9 @@ nav {
 
 footer {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     background-color: #8E8D81;
     color: black;
-    align-items: center;
-    justify-content: space-between;
 }
 
 #logoFT {
@@ -204,8 +228,17 @@ footer {
     display: flex;
     flex-direction: column;
     margin-left: 12%;
+    line-height: 0.001;
+    margin-top: 20px;
+    font-family: "Nunito Sans", serif;
+}
+
+#kontaktFooter {
+    margin-top: 50px;
 }
 
 .footerIMG{
-    margin-right: 12%;
+    margin-top: 75px;
+    margin-bottom: 30px;
+    margin-left: 12%;
 }
