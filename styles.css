@@ -12,9 +12,7 @@ body {
     font-family: "Nunito", serif;
 }
 
-#velkommen {
-    font-size: 100%;
-}
+
 nav h2 {
     font-family: "Nunito", serif;
     margin-right: 12rem;
@@ -94,11 +92,6 @@ header {
         width: 100vw !important; /* Full width for the main container */
     }
 
-    #profil {
-        width: 100% !important; /* Ensure it takes up the full width */
-        display: none; /* Keep it hidden */
-    }
-
     #stein, #sok {
         width: 100% !important; /* Ensure these take up full width */
     }
@@ -153,6 +146,7 @@ button {
 .filterinput {
     display: none;
 }
+
 .søkeboksknapp:hover {
     transform: scale(1.1);
 }
@@ -167,6 +161,15 @@ button {
     margin-top: 2%;
     margin-bottom: 1%;
 }
+
+
+
+#ekstrating {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 10px;
+}
 #addStone {
     border-radius: 15px;
     margin-top: 2%;
@@ -174,7 +177,7 @@ button {
 #søkeboks {
     display: flex;
     border: 1px, solid, black;
-    height: 4em;
+    height: 5em;
 }
 #søkeknapp {
     width: 10%;
@@ -191,15 +194,6 @@ button {
     
 }
 
-#profil {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: 1px, solid, black;
-    height: 100%;
-    width: 60%;
-}
 #stein {
     display: flex;
     align-items: center;
@@ -232,25 +226,9 @@ button {
     flex-direction: column;
     border: 1px, solid, black;
     height: 100%;
-    width: 70%;
-}
-#profil-instillinger{
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     width: 100%;
-    height: 100%;
-    gap: 80px;
 }
-#profil-instillinger button{
-    border-radius: 15px;
-    width: 80%;
-    height: 2rem;
-}
-#profil-instillinger button:hover{
-    transform: scale(1.02);
-}
+
 #stein-samling{
     overflow: auto; /* Enables scrolling when content overflows */
     margin-top: 2%;
