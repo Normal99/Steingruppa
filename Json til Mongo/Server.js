@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const { MongoClient } = require('mongodb');
+const { ObjectId } = require('mongodb'); // Importer ObjectId
+
 
 // MongoDB connection details
 const uri = "mongodb+srv://itlinjatelemark27:Gcp8J8CjPYhTRocb@cluster0.jtvq3.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
@@ -54,6 +56,19 @@ app.post('/api/stones', async (req, res) => {
       res.status(201).json(result);
   } catch (error) {
       res.status(500).send({ message: "Error adding stone", error });
+  }
+});
+
+app.get('/api/stones/:id', async (req, res) => {
+  try {
+      const id = req.params.id;
+      const stone = await db.findOne({ _id: new ObjectId(id) }); // Hent fra MongoDB med ObjectId
+      if (!stone) {
+          return res.status(404).json({ message: "Stone not found" });
+      }
+      res.json(stone);
+  } catch (error) {
+      res.status(500).json({ message: "Error fetching stone", error });
   }
 });
 
