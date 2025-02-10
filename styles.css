@@ -142,6 +142,21 @@ button {
 #søkefelt {
     width: 100%;
 }
+
+#filterknapp {
+    width: 10%;
+    height: 100%;
+    background: url('bilder/filter.png') no-repeat center;
+    background-size: contain;
+}
+
+.filterinput {
+    display: block;
+}
+.søkeboksknapp:hover {
+    transform: scale(1.1);
+}
+
 #leggtilKnapp {
     width: 10%;
     height: 100%;
