@@ -151,7 +151,7 @@ button {
 }
 
 .filterinput {
-    display: block;
+    display: none;
 }
 .søkeboksknapp:hover {
     transform: scale(1.1);
