@@ -148,6 +148,10 @@ button {
 }
 #stein-samling{
     overflow: auto; /* Enables scrolling when content overflows */
+    margin-top: 2%;
+}
+#filters{
+    margin-top: 1%;
 }
 nav {
     display: flex;
@@ -166,9 +170,11 @@ nav {
 
 footer {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     background-color: #8E8D81;
     color: black;
+    align-items: center;
+    justify-content: space-between;
 }
 
 #logoFT {
@@ -189,5 +195,5 @@ footer {
 }
 
 .footerIMG{
-    margin-left: 12%;
+    margin-right: 12%;
 }
