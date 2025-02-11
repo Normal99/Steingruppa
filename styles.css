@@ -12,9 +12,11 @@ body {
     font-family: "Nunito", serif;
 }
 
+
 nav h2 {
     font-family: "Nunito", serif;
-    margin-right: 12%;
+    margin-right: 12rem;
+    font-size: 100%;
 }
 
 #logo {
@@ -24,57 +26,156 @@ nav h2 {
 }
 
 #logo:hover {
-    opacity: 0.75;
+    opacity: 0.8;
 }
-
 
 header {
-    justify-content: end;
-    display: flex;
     background-color: #8E8D81;
-    font-family: "Nunito Sans", serif;
 }
 
-#sprak{
+.headMain {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.head-h {
+    justify-content: end;
+    background-color: #8E8D81;
+    font-family: "Nunito Sans", serif;
+    margin-right: 12%;
+}
+
+
+.head-v {
+    justify-content: start;
+    background-color: #8E8D81;
+    font-family: "Nunito Sans", serif;
+    margin-left: 12%;
+}
+
+#oppdrag {
     background-color: #8E8D81;
     border: 0px;
     font-size: larger;
-    margin-top: 8px;
-    margin-bottom: 8px;
-    margin-right: 15px;
 }
 
-#sprak:hover {
-    text-decoration: underline;
+#sprak {
+    background-color: #8E8D81;
+    border: 0px;
+    font-size: larger;
 }
 
 #kontakt {
     background-color: #8E8D81;
     border: 0px;
     font-size: larger;
-    margin-right: 12%;
 }
 
-#kontakt:hover {
-    text-decoration: underline;
+#profilH {
+    background-color: #8E8D81;
+    border: 0px;
+    font-size: larger;
+}
+
+/* Mobile Layout Adjustments */
+@media screen and (max-width: 768px) {
+    header {
+        display: none !important; /* Hide the header on small screens */
+    }
+    
+    #hoved {
+        flex-direction: column !important;
+        height: auto; /* Prevent overflow issues */
+        width: 100vw !important; /* Full width for the main container */
+    }
+
+    #stein, #sok {
+        width: 100% !important; /* Ensure these take up full width */
+    }
+
+    .footer1 {
+        display: none !important; /* Hide footer1 on phone layout */
+    }
+
+    footer {
+        display: flex;
+        flex-direction: column;
+        background-color: #8E8D81;
+        padding: 20px 0; /* Add vertical padding for spacing */
+        width: 100%;
+        position: relative;
+        box-sizing: border-box;
+        margin-top: 55%;
+    }
+
+    #logoFT {
+        width: 60px; /* Make logo smaller on mobile */
+        height: auto;
+        padding: 5px 0;
+    }
+
+    #kontaktFooter {
+        margin-top: 15px; /* Reduced margin for a better fit */
+        font-size: 0.9rem; /* Smaller font size */
+    }
+
+    /* Ensure content doesn't overlap the footer */
+    body {
+        box-sizing: border-box;
+    }
 }
 
 button {
     font-family: "Nunito Sans", serif;
 }
+
 #søkefelt {
     width: 100%;
 }
+
+#filterknapp {
+    width: 10%;
+    height: 100%;
+    background: url('bilder/filter.png') no-repeat center;
+    background-size: contain;
+}
+
+.filterinput {
+    display: none;
+}
+
+.søkeboksknapp:hover {
+    transform: scale(1.1);
+}
+
 #leggtilKnapp {
     width: 10%;
     height: 100%;
     background: url('bilder/pluss.png') no-repeat center;
     background-size: contain;
 }
+#add-stone-form h2{
+    margin-top: 2%;
+    margin-bottom: 1%;
+}
+
+#ekstrating {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 10px;
+}
+#addStone {
+    border-radius: 15px;
+    margin-top: 2%;
+}
 #søkeboks {
     display: flex;
     border: 1px, solid, black;
-    height: 4em;
+    height: 5em;
 }
 #søkeknapp {
     width: 10%;
@@ -87,49 +188,51 @@ button {
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: 99vh;
+    height: 100vh;
+    
 }
 
-#profil {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: 1px, solid, black;
-    height: 100%;
-    width: 60%;
-}
 #stein {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
     border: 1px, solid, black;
     height: 100%;
     width: 100%;
+}
+#steininfo{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    margin: 10px;
+}
+#beskrivelse{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 10%;
+}
+#info1{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 10%;
 }
 #sok {
     display: flex;
     flex-direction: column;
     border: 1px, solid, black;
     height: 100%;
-    width: 70%;
-}
-#profil-instillinger{
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     width: 100%;
-    height: 100%;
-    gap: 80px;
 }
-#profil-instillinger button{
-    border-radius: 15px;
-    width: 80%;
-    height: 5%;
-}
-#profil-instillinger button:hover{
-    transform: scale(1.02);
-}
+
 #stein-samling{
     overflow: auto; /* Enables scrolling when content overflows */
+    margin-top: 2%;
+}
+#filters{
+    margin-top: 1%;
 }
 nav {
     display: flex;
@@ -147,8 +250,38 @@ nav {
 }
 
 footer {
+    display: flex;
+    flex-direction: column;
     background-color: #8E8D81;
-    color: white;
-    text-align: center;
-    padding: 15px 0;
+    color: black;
+}
+
+#logoFT {
+    width: auto;
+    height: 75px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#logoFT:hover {
+    opacity: 0.8;
+}
+
+.footer1{
+    display: flex;
+    flex-direction: column;
+    margin-left: 12%;
+    line-height: 0.001;
+    margin-top: 20px;
+    font-family: "Nunito Sans", serif;
+}
+
+#kontaktFooter {
+    margin-top: 50px;
+}
+
+.footerIMG{
+    margin-top: 75px;
+    margin-bottom: 30px;
+    margin-left: 12%;
 }

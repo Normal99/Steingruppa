@@ -39,6 +39,10 @@ async function fetchData() {
               <td>${item.id}</td>
               <td>${item.sted}</td>
           `;
+          row.addEventListener("click", () =>{
+            console.log(item._id)
+            ShowStoneData(item._id)
+          })
           tableBody.appendChild(row);
       });
   } catch (error) {
@@ -47,6 +51,23 @@ async function fetchData() {
   }
 }
 
+
+
+
+// Function to toggle the visibility of the filter input fields
+function toggleFilters() {
+    // Get all the filter inputs
+    const filters = document.querySelectorAll('.filterinput');
+    
+    // Loop through each filter input and toggle its visibility
+    filters.forEach(function(filter) {
+      if (filter.style.display === 'none') {
+        filter.style.display = 'block'; // Show the filter
+      } else {
+        filter.style.display = 'none'; // Hide the filter
+      }
+    });
+  }
 
 
 // Function to toggle the visibility of the add stone form ved det mennesklig ord betyr dette at man viser greia for å adde steinene bare når du trykker på knappen.
@@ -58,6 +79,34 @@ function toggleAddStoneForm() {
       form.style.display = 'none';
   }
 }
+
+async function ShowStoneData(id) {
+    try {
+        const response = await fetch(`http://localhost:3000/api/stones/${id}`);
+        const data = await response.json();
+        let EL = document.getElementById("stein")
+        console.log(data)
+        EL.innerHTML = `
+              <h2>${data.steingruppe}</h2>
+              <hr>
+              <div id="steininfo">
+              <div id="info1">
+              <p>kasse: ${data.kasse}</p>
+              <p>sted: ${data.sted}</p>
+              <p>id: ${data.id}</p>
+              </div>
+              <div id="beskrivelse">
+              <h3 id="steintitle">beskrivelse: </h3>
+              <p>lorem ipsum bla bla bla</p>
+              </div>
+              </div>
+          `;
+        
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+  
 
 
 // Fetch data on page load

@@ -13,8 +13,16 @@
 </head>
 <body>
     <header>
-        <button id = "sprak">Language</button>
-        <button id = "kontakt">Kontakt oss</button>
+        <div class = "headMain">
+            <div class = "head-v">
+                <button id = "oppdrag">Vårt oppdrag</button>
+                <button id = "sprak">Language</button>
+            </div>
+            <div class = "head-h">
+                <button id = "kontakt">Kontakt oss</button>
+                <button id = "profilH">Min profil</button>
+            </div>
+        </div>
     </header>
     <nav>
         <img src="bilder/t_logo_02_sidestilt_rgb.png" alt="Telemarklogo" id="logo">
@@ -26,43 +34,40 @@
     </div>
 
     <div id="hoved">
-        <div id="profil">
-            <h2>Velkommen "navn"</h2>
-            <div id="profil-instillinger">
-                <button>Min profil og innlegg</button>
-                <button>Vårt oppdrag</button>
-            </div>
-        </div>
         <div id="stein">
         </div>
         <div id="sok">
-
             <div id="søkeboks">
                 <input type="text" id="søkefelt" placeholder="Søk">
-                <button id="søkeknapp" onclick="fetchData()"></button>
-                <button id="leggtilKnapp" onclick="toggleAddStoneForm()"></button>
+                <button class="søkeboksknapp" id="søkeknapp" onclick="fetchData()"></button>
+                <button class="søkeboksknapp" id="leggtilKnapp" onclick="toggleAddStoneForm()"></button>
+                <button class="søkeboksknapp" id="filterknapp" onclick="toggleFilters()"></button>
             </div>
-            <div id="filters">
-                <input type="text" id="filter-kasse" placeholder="Filter by Kasse">
-                <input type="text" id="filter-steingruppe" placeholder="Filter by Steingruppe">
-                <input type="text" id="filter-id" placeholder="Filter by ID">
-                <input type="text" id="filter-sted" placeholder="Filter by Sted">
-            </div>
-            <div id="add-stone-form" style="display: none;">
-                <h2>Add New Stone</h2>
-                <div>
-                    <input type="text" id="new-kasse" placeholder="Kasse">
+
+            <div id="ekstrating">
+                <div id="filters">
+                    <h2 class="filterinput">Filter:</h2>
+                    <input type="text" id="filter-kasse" placeholder="Filter by Kasse" class="filterinput">
+                    <input type="text" id="filter-steingruppe" placeholder="Filter by Steingruppe" class="filterinput">
+                    <input type="text" id="filter-id" placeholder="Filter by ID" class="filterinput">
+                    <input type="text" id="filter-sted" placeholder="Filter by Sted" class="filterinput">
                 </div>
-                <div>
-                    <input type="text" id="new-steingruppe" placeholder="Steingruppe">
+                <div id="add-stone-form" style="display: none;">
+                    <h2>Legg til ny stein</h2>
+                    <div>
+                        <input type="text" id="new-kasse" placeholder="Kasse">
+                    </div>
+                    <div>
+                        <input type="text" id="new-steingruppe" placeholder="Steingruppe">
+                    </div>
+                    <div>
+                        <input type="text" id="new-id" placeholder="ID">
+                    </div>
+                    <div>
+                        <input type="text" id="new-sted" placeholder="Sted">
+                    </div>
+                    <button id="addStone" onclick="addStone()">Legg til stein</button>
                 </div>
-                <div>
-                    <input type="text" id="new-id" placeholder="ID">
-                </div>
-                <div>
-                    <input type="text" id="new-sted" placeholder="Sted">
-                </div>
-                <button onclick="addStone()">Add Stone</button>
             </div>
             <div id="stein-samling">
                 <table id="data-table">
@@ -83,9 +88,23 @@
         </div>
     </div>
     <footer>
-      Stein-Gruppa  
+        <div class = "footer1" id = "kontaktFooter">
+            <p><B>Kontakt oss</B></p>
+            <p>Tlf. nummer</p>
+            <p>e-post adrs.</p>
+        </div>
+        <div class="footer1">
+            <p><B>Adresse</B></p>
+            <p>Telemark fylkeskommune</p>
+            <p>post</p>
+            <p>post nr.</p>
+        </div>
+        <div class = "footerIMG">
+            <img src="bilder/t_logo_02_sidestilt_rgb.png" alt="Telemarklogo" id="logoFT">
+        </div>
     </footer>
-    <script src="mongoDB til object.js"></script>
+
     <script src="script.js"></script>
+    <!-- <script src="mongoDB til object.js"></script> -->
 </body>
 </html>
