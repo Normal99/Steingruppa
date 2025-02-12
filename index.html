@@ -34,14 +34,23 @@
     </div>
 
     <div id="hoved">
+        <div id="profil">
+            <h2 id="velkommen">Velkommen "navn"</h2>
+            <div id="profil-instillinger">
+                <button>Min profil og innlegg</button>
+                <button>Vårt oppdrag</button>
+            </div>
+        </div>
         <div id="stein">
         </div>
         <div id="sok">
+
             <div id="søkeboks">
                 <input type="text" id="søkefelt" placeholder="Søk">
                 <button id="søkeknapp" onclick="fetchData()"></button>
                 <button id="leggtilKnapp" onclick="toggleAddStoneForm()"></button>
             </div>
+<<<<<<< HEAD
 <<<<<<< HEAD
 
             <div id="ekstrating">
@@ -57,29 +66,33 @@
                 <input type="text" id="filter-steingruppe" placeholder="Filter by Steingruppe">
                 <input type="text" id="filter-id" placeholder="Filter by ID">
                 <input type="text" id="filter-sted" placeholder="Filter by Sted">
+=======
+            <div id="filters">
+                <input type="text" id="filter-kasse" placeholder="Filter by Kasse" class="filterinput">
+                <input type="text" id="filter-steingruppe" placeholder="Filter by Steingruppe" class="filterinput">
+                <input type="text" id="filter-id" placeholder="Filter by ID" class="filterinput">
+                <input type="text" id="filter-sted" placeholder="Filter by Sted" class="filterinput">
+>>>>>>> parent of a5d4e10 (Refactor filter section layout and improve styling; remove unused profile section)
             </div>
             <div id="add-stone-form" style="display: none;">
                 <h2>Legg til ny stein</h2>
                 <div>
                     <input type="text" id="new-kasse" placeholder="Kasse">
+<<<<<<< HEAD
 >>>>>>> parent of 2177000 (Add filter button and toggle functionality; improve input styling)
+=======
+>>>>>>> parent of a5d4e10 (Refactor filter section layout and improve styling; remove unused profile section)
                 </div>
-                <div id="add-stone-form" style="display: none;">
-                    <h2>Legg til ny stein</h2>
-                    <div>
-                        <input type="text" id="new-kasse" placeholder="Kasse">
-                    </div>
-                    <div>
-                        <input type="text" id="new-steingruppe" placeholder="Steingruppe">
-                    </div>
-                    <div>
-                        <input type="text" id="new-id" placeholder="ID">
-                    </div>
-                    <div>
-                        <input type="text" id="new-sted" placeholder="Sted">
-                    </div>
-                    <button id="addStone" onclick="addStone()">Legg til stein</button>
+                <div>
+                    <input type="text" id="new-steingruppe" placeholder="Steingruppe">
                 </div>
+                <div>
+                    <input type="text" id="new-id" placeholder="ID">
+                </div>
+                <div>
+                    <input type="text" id="new-sted" placeholder="Sted">
+                </div>
+                <button id="addStone" onclick="addStone()">Legg til stein</button>
             </div>
             <div id="stein-samling">
                 <table id="data-table">
