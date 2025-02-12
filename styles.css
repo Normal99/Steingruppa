@@ -169,8 +169,7 @@ button {
 #ekstrating {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
-    margin: 10px;
+    margin: 7px;
 }
 #addStone {
     border-radius: 15px;
