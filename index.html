@@ -39,10 +39,10 @@
         <div id="sok">
             <div id="søkeboks">
                 <input type="text" id="søkefelt" placeholder="Søk">
-                <button class="søkeboksknapp" id="søkeknapp" onclick="fetchData()"></button>
-                <button class="søkeboksknapp" id="leggtilKnapp" onclick="toggleAddStoneForm()"></button>
-                <button class="søkeboksknapp" id="filterknapp" onclick="toggleFilters()"></button>
+                <button id="søkeknapp" onclick="fetchData()"></button>
+                <button id="leggtilKnapp" onclick="toggleAddStoneForm()"></button>
             </div>
+<<<<<<< HEAD
 
             <div id="ekstrating">
                 <div id="filters">
@@ -51,6 +51,18 @@
                     <input type="text" id="filter-steingruppe" placeholder="Filter by Steingruppe" class="filterinput">
                     <input type="text" id="filter-id" placeholder="Filter by ID" class="filterinput">
                     <input type="text" id="filter-sted" placeholder="Filter by Sted" class="filterinput">
+=======
+            <div id="filters">
+                <input type="text" id="filter-kasse" placeholder="Filter by Kasse">
+                <input type="text" id="filter-steingruppe" placeholder="Filter by Steingruppe">
+                <input type="text" id="filter-id" placeholder="Filter by ID">
+                <input type="text" id="filter-sted" placeholder="Filter by Sted">
+            </div>
+            <div id="add-stone-form" style="display: none;">
+                <h2>Legg til ny stein</h2>
+                <div>
+                    <input type="text" id="new-kasse" placeholder="Kasse">
+>>>>>>> parent of 2177000 (Add filter button and toggle functionality; improve input styling)
                 </div>
                 <div id="add-stone-form" style="display: none;">
                     <h2>Legg til ny stein</h2>
@@ -103,7 +115,11 @@
             <img src="bilder/t_logo_02_sidestilt_rgb.png" alt="Telemarklogo" id="logoFT">
         </div>
     </footer>
+<<<<<<< HEAD
 
+=======
+    <script src="mongoDB til object.js"></script>
+>>>>>>> parent of 2177000 (Add filter button and toggle functionality; improve input styling)
     <script src="script.js"></script>
 </body>
 </html>
