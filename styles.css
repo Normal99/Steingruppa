@@ -145,7 +145,7 @@ button {
 }
 
 .filterinput {
-    display: none;
+    display: block;
 }
 
 .søkeboksknapp:hover {
