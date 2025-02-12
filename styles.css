@@ -135,7 +135,6 @@ button {
 #søkefelt {
     width: 100%;
 }
-<<<<<<< HEAD
 
 #filterknapp {
     width: 10%;
@@ -152,8 +151,6 @@ button {
     transform: scale(1.1);
 }
 
-=======
->>>>>>> parent of 2177000 (Add filter button and toggle functionality; improve input styling)
 #leggtilKnapp {
     width: 10%;
     height: 100%;
