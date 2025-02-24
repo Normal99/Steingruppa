@@ -2,7 +2,7 @@
     --main: /*hoved farge her*/;
     /*legg til andre farge temaer*/
 }
-
+ 
 body {
     margin: 0;
     display: flex;
@@ -10,33 +10,28 @@ body {
     flex-direction: column;
     overflow-x: hidden;
     font-family: "Nunito", serif;
-}
-
-
+} 
+ 
 nav h2 {
     font-family: "Nunito", serif;
     margin-right: 12rem;
     font-size: 100%;
 }
-
+ 
 #logo {
     width: auto;
     height: 60px;
     margin-left: 12%;
 }
-
+ 
 #logo:hover {
     opacity: 0.8;
 }
-
+ 
 header {
     background-color: #8E8D81;
 }
-
-header button:hover {
-    text-decoration: underline;
-}
-
+ 
 .headMain {
     display: flex;
     flex-direction: row;
@@ -44,66 +39,66 @@ header button:hover {
     padding-top: 8px;
     padding-bottom: 8px;
 }
-
+ 
 .head-h {
     justify-content: end;
     background-color: #8E8D81;
     font-family: "Nunito Sans", serif;
     margin-right: 12%;
 }
-
-
+ 
+ 
 .head-v {
     justify-content: start;
     background-color: #8E8D81;
     font-family: "Nunito Sans", serif;
     margin-left: 12%;
 }
-
+ 
 #oppdrag {
     background-color: #8E8D81;
     border: 0px;
     font-size: larger;
 }
-
+ 
 #sprak {
     background-color: #8E8D81;
     border: 0px;
     font-size: larger;
 }
-
+ 
 #kontakt {
     background-color: #8E8D81;
     border: 0px;
     font-size: larger;
 }
-
+ 
 #profilH {
     background-color: #8E8D81;
     border: 0px;
     font-size: larger;
 }
-
+ 
 /* Mobile Layout Adjustments */
 @media screen and (max-width: 768px) {
     header {
         display: none !important; /* Hide the header on small screens */
     }
-    
+   
     #hoved {
         flex-direction: column !important;
         height: auto; /* Prevent overflow issues */
         width: 100vw !important; /* Full width for the main container */
     }
-
+ 
     #stein, #sok {
         width: 100% !important; /* Ensure these take up full width */
     }
-
+ 
     .footer1 {
         display: none !important; /* Hide footer1 on phone layout */
     }
-
+ 
     footer {
         display: flex;
         flex-direction: column;
@@ -114,47 +109,47 @@ header button:hover {
         box-sizing: border-box;
         margin-top: 55%;
     }
-
+ 
     #logoFT {
         width: 60px; /* Make logo smaller on mobile */
         height: auto;
         padding: 5px 0;
     }
-
+ 
     #kontaktFooter {
         margin-top: 15px; /* Reduced margin for a better fit */
         font-size: 0.9rem; /* Smaller font size */
     }
-
+ 
     /* Ensure content doesn't overlap the footer */
     body {
         box-sizing: border-box;
     }
 }
-
+ 
 button {
     font-family: "Nunito Sans", serif;
 }
-
+ 
 #søkefelt {
     width: 100%;
 }
-
+ 
 #filterknapp {
     width: 10%;
     height: 100%;
     background: url('bilder/filter.png') no-repeat center;
     background-size: contain;
 }
-
+ 
 .filterinput {
     display: none;
 }
-
+ 
 .søkeboksknapp:hover {
     transform: scale(1.1);
 }
-
+ 
 #leggtilKnapp {
     width: 10%;
     height: 100%;
@@ -165,7 +160,7 @@ button {
     margin-top: 2%;
     margin-bottom: 1%;
 }
-
+ 
 #ekstrating {
     display: flex;
     flex-direction: row;
@@ -176,7 +171,6 @@ button {
     border-radius: 15px;
     margin-top: 2%;
     background-color: #8e8d8183;
-
 }
 #søkeboks {
     display: flex;
@@ -189,15 +183,15 @@ button {
     background: url('bilder/search.png') no-repeat center;
     background-size: contain;
 }
-
+ 
 #hoved{
     display: flex;
     flex-direction: row;
     width: 100%;
     height: 100vh;
-    
+   
 }
-
+ 
 #stein {
     display: flex;
     align-items: center;
@@ -232,7 +226,7 @@ button {
     height: 100%;
     width: 100%;
 }
-
+ 
 #stein-samling{
     overflow: auto; /* Enables scrolling when content overflows */
     margin-top: 2%;
@@ -246,7 +240,7 @@ nav {
     justify-content: space-between;
     margin-top: 20px;
 }
-
+ 
 .underline {
     margin-left: 12%;
     margin-right: 12%;
@@ -254,25 +248,25 @@ nav {
     border-style: solid;
     border-top: 15%;
 }
-
+ 
 footer {
     display: flex;
     flex-direction: column;
     background-color: #8E8D81;
     color: black;
 }
-
+ 
 #logoFT {
     width: auto;
     height: 75px;
     padding-top: 10px;
     padding-bottom: 10px;
 }
-
+ 
 #logoFT:hover {
     opacity: 0.8;
 }
-
+ 
 .footer1{
     display: flex;
     flex-direction: column;
@@ -281,11 +275,11 @@ footer {
     margin-top: 20px;
     font-family: "Nunito Sans", serif;
 }
-
+ 
 #kontaktFooter {
     margin-top: 50px;
 }
-
+ 
 .footerIMG{
     margin-top: 75px;
     margin-bottom: 30px;
