@@ -169,11 +169,19 @@ button {
 #ekstrating {
     display: flex;
     flex-direction: row;
+<<<<<<< Updated upstream
     margin: 7px;
 }
+=======
+    justify-content: space-around;
+    margin: 10px;
+}   
+>>>>>>> Stashed changes
 #addStone {
     border-radius: 15px;
     margin-top: 2%;
+    background-color: #8e8d8183;
+
 }
 #søkeboks {
     display: flex;
