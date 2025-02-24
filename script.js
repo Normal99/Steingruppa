@@ -40,6 +40,10 @@ async function fetchData() {
               <td>${item.sted}</td>
               <td><button onclick="deleteStone('${item._id}')">🗑️</button></td>
           `;
+          row.addEventListener("click", () =>{
+            console.log(item._id)
+            ShowStoneData(item._id)
+          })
           // Append the row to the table body
           tableBody.appendChild(row);
       });
