@@ -72,6 +72,25 @@ app.get('/api/stones/:id', async (req, res) => {
   }
 });
 
+// API endpoint to delete a stone
+app.delete('/api/stones/:id', async (req, res) => {
+  try {
+      const stoneId = req.params.id;
+      console.log(`Attempting to delete stone with ID: ${stoneId}`); // Log the stone ID
+      const result = await db.deleteOne({ _id: new ObjectId(stoneId) }); // Convert stoneId to ObjectId
+      if (result.deletedCount === 1) {
+          console.log(`Stone with ID: ${stoneId} deleted successfully`);
+          res.status(200).send({ message: "Stone deleted successfully" });
+      } else {
+          console.log(`Stone with ID: ${stoneId} not found`);
+          res.status(404).send({ message: "Stone not found" });
+      }
+  } catch (error) {
+      console.error('Error deleting stone:', error);
+      res.status(500).send({ message: "Error deleting stone", error });
+  }
+});
+
 
 // Start the server
 app.listen(port, () => {

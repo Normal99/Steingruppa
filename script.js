@@ -38,11 +38,9 @@ async function fetchData() {
               <td>${item.steingruppe}</td>
               <td>${item.id}</td>
               <td>${item.sted}</td>
+              <td><button onclick="deleteStone('${item._id}')">🗑️</button></td>
           `;
-          row.addEventListener("click", () =>{
-            console.log(item._id)
-            ShowStoneData(item._id)
-          })
+          // Append the row to the table body
           tableBody.appendChild(row);
       });
   } catch (error) {
@@ -135,6 +133,29 @@ async function ShowStoneData(id) {
       console.error("Error fetching data:", error);
     }
   }
+
+// Function to delete a stone
+async function deleteStone(stoneId) {
+    try {
+        console.log(`Deleting stone with ID: ${stoneId}`); // Log the stone ID
+        // Send a DELETE request to the server to delete the stone
+        const response = await fetch(`http://localhost:3000/api/stones/${stoneId}`, {
+            method: 'DELETE',
+        });
+        const result = await response.json();
+
+        if (response.ok) {
+            alert(result.message);
+            // Refresh the table data
+            fetchData();
+        } else {
+            alert(`Error: ${result.message}`);
+        }
+    } catch (error) {
+        console.error('Error deleting stone:', error);
+        alert('Error deleting stone');
+    }
+}
   
 
 
