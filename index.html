@@ -41,16 +41,15 @@
                 <input type="text" id="søkefelt" placeholder="Søk">
                 <button class="søkeboksknapp" id="søkeknapp" onclick="fetchData()"></button>
                 <button class="søkeboksknapp" id="leggtilKnapp" onclick="toggleAddStoneForm()"></button>
-                <button class="søkeboksknapp" id="filterknapp" onclick="toggleFilters()"></button>
+                <button class="søkeboksknapp" id="filterknapp" onclick="toggleFilter()"></button>
             </div>
 
             <div id="ekstrating">
-                <div id="filters">
-                    <h2 class="filterinput">Filter:</h2>
-                    <input type="text" id="filter-kasse" placeholder="Filter by Kasse" class="filterinput">
-                    <input type="text" id="filter-steingruppe" placeholder="Filter by Steingruppe" class="filterinput">
-                    <input type="text" id="filter-id" placeholder="Filter by ID" class="filterinput">
-                    <input type="text" id="filter-sted" placeholder="Filter by Sted" class="filterinput">
+                <div id="filters" style="display: none;">
+                    <input type="text" id="filter-kasse" placeholder="Filter by Kasse">
+                    <input type="text" id="filter-steingruppe" placeholder="Filter by Steingruppe">
+                    <input type="text" id="filter-id" placeholder="Filter by ID">
+                    <input type="text" id="filter-sted" placeholder="Filter by Sted">
                 </div>
                 <div id="add-stone-form" style="display: none;">
                     <h2>Legg til ny stein</h2>
@@ -105,6 +104,5 @@
     </footer>
 
     <script src="script.js"></script>
-    <!-- <script src="mongoDB til object.js"></script> -->
 </body>
 </html>
