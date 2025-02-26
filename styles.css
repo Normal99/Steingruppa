@@ -162,10 +162,10 @@ button {
  
 #ekstrating {
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    margin: 10px;
-}   
+    flex-direction: column;
+    align-items: flex-start;
+}
+
 #addStone {
     border-radius: 15px;
     margin-top: 2%;
@@ -230,8 +230,11 @@ button {
     overflow: auto; /* Enables scrolling when content overflows */
     margin-top: 2%;
 }
-#filters{
-    margin-top: 1%;
+#filters {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Adjust the gap between elements as needed */
+    margin-top: 10px; /* Adjust the margin as needed */
 }
 nav {
     display: flex;
