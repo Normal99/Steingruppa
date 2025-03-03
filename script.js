@@ -38,10 +38,13 @@ async function fetchData() {
               <td>${item.steingruppe}</td>
               <td>${item.id}</td>
               <td>${item.sted}</td>
-              <td><button onclick="deleteStone('${item._id}')">🗑️</button></td>
+              <td>
+                  <button onclick="deleteStone('${item._id}')">🗑️</button>
+                  <button onclick='showEditForm(${JSON.stringify(item).replace(/'/g, "&#39;")})'>✏️</button>
+              </td>
           `;
           row.addEventListener("click", () =>{
-            console.log(item._id)
+//            console.log(item._id) for debbuging
             ShowStoneData(item._id)
           })
           // Append the row to the table body
@@ -101,6 +104,19 @@ function toggleAddStoneForm() {
   }
 }
 
+function showEditForm() {
+    const form = document.getElementById('edit-stone-form');
+    if (form.style.display === 'none' || form.style.display === '') {
+        form.style.display = 'block';
+    } else {
+        form.style.display = 'none';
+    }
+  }
+  
+  function closeEditForm() {
+    document.getElementById('edit-stone-form').style.display = 'none';
+}  
+
 // Function to toggle the visibility of the add stone form ved det mennesklig ord betyr dette at man viser greia for å adde steinene bare når du trykker på knappen.
 function toggleFilter() {
     const form = document.getElementById('filters');
@@ -116,7 +132,7 @@ async function ShowStoneData(id) {
         const response = await fetch(`http://localhost:3000/api/stones/${id}`);
         const data = await response.json();
         let EL = document.getElementById("stein")
-        console.log(data)
+//        console.log(data) bruk for debugging
         EL.innerHTML = `
               <h2>${data.steingruppe}</h2>
               <hr>
@@ -138,10 +154,50 @@ async function ShowStoneData(id) {
     }
   }
 
+// Function to edit a stone
+async function editStone(stoneId) {
+    try {
+        const kasse = document.getElementById('edit-kasse').value;
+        const steingruppe = document.getElementById('edit-steingruppe').value;
+        const id = document.getElementById('edit-id').value;
+        const sted = document.getElementById('edit-sted').value;
+  
+        const updatedStone = { kasse, steingruppe, id, sted };
+  
+        const response = await fetch(`http://localhost:3000/api/stones/${stoneId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updatedStone)
+        });
+  
+        if (response.ok) {
+            alert('Stone updated successfully');
+            fetchData(); // Refresh the table data
+        } else {
+            const errorData = await response.json();
+            alert(`Error updating stone: ${errorData.message}`);
+        }
+    } catch (error) {
+        console.error('Error updating stone:', error);
+    }
+  }
+  
+  // Function to show the edit form with the current stone data
+  function showEditForm(stone) {
+    document.getElementById('edit-kasse').value = stone.kasse;
+    document.getElementById('edit-steingruppe').value = stone.steingruppe;
+    document.getElementById('edit-id').value = stone.id;
+    document.getElementById('edit-sted').value = stone.sted;
+    document.getElementById('edit-stone-form').style.display = 'block';
+    document.getElementById('edit-stone-button').onclick = () => editStone(stone._id);
+}
+
 // Function to delete a stone
 async function deleteStone(stoneId) {
     try {
-        console.log(`Deleting stone with ID: ${stoneId}`); // Log the stone ID
+//        console.log(`Deleting stone with ID: ${stoneId}`); // Log the stone ID for debugging
         // Send a DELETE request to the server to delete the stone
         const response = await fetch(`http://localhost:3000/api/stones/${stoneId}`, {
             method: 'DELETE',
@@ -167,4 +223,4 @@ async function deleteStone(stoneId) {
 window.onload = fetchData;
 
 // Optional: Refresh data every 5 seconds
-setInterval(fetchData, 5000);
+// setInterval(fetchData, 5000);

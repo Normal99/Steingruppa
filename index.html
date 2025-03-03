@@ -43,14 +43,13 @@
                 <button class="søkeboksknapp" id="leggtilKnapp" onclick="toggleAddStoneForm()"></button>
                 <button class="søkeboksknapp" id="filterknapp" onclick="toggleFilter()"></button>
             </div>
-
+            <div id="filters" style="display: none;">
+                <input type="text" id="filter-kasse" placeholder="Filter by Kasse">
+                <input type="text" id="filter-steingruppe" placeholder="Filter by Steingruppe">
+                <input type="text" id="filter-id" placeholder="Filter by ID">
+                <input type="text" id="filter-sted" placeholder="Filter by Sted">
+            </div>
             <div id="ekstrating">
-                <div id="filters" style="display: none;">
-                    <input type="text" id="filter-kasse" placeholder="Filter by Kasse">
-                    <input type="text" id="filter-steingruppe" placeholder="Filter by Steingruppe">
-                    <input type="text" id="filter-id" placeholder="Filter by ID">
-                    <input type="text" id="filter-sted" placeholder="Filter by Sted">
-                </div>
                 <div id="add-stone-form" style="display: none;">
                     <h2>Legg til ny stein</h2>
                     <div>
@@ -66,6 +65,23 @@
                         <input type="text" id="new-sted" placeholder="Sted">
                     </div>
                     <button id="addStone" onclick="addStone()">Legg til stein</button>
+                </div>
+                <div id="edit-stone-form" style="display: none;">
+                    <h2>Edit Stone</h2>
+                    <div>
+                        <input type="text" id="edit-kasse">
+                    </div>
+                    <div>
+                        <input type="text" id="edit-steingruppe">
+                    </div>
+                    <div>
+                        <input type="text" id="edit-id">
+                    </div>
+                    <div>
+                        <input type="text" id="edit-sted">
+                    </div>
+                    <button id="edit-stone-button">Update Stone</button>
+                    <button id="close-form-button" onclick="closeEditForm()">✕</button>
                 </div>
             </div>
             <div id="stein-samling">

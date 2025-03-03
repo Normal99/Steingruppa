@@ -72,6 +72,25 @@ app.get('/api/stones/:id', async (req, res) => {
   }
 });
 
+// API endpoint to update a stone
+app.put('/api/stones/:id', async (req, res) => {
+  try {
+      const stoneId = req.params.id;
+      const updatedStone = req.body;
+      const result = await db.updateOne(
+          { _id: new ObjectId(stoneId) },
+          { $set: updatedStone }
+      );
+      if (result.matchedCount === 1) {
+          res.status(200).send({ message: "Stone updated successfully" });
+      } else {
+          res.status(404).send({ message: "Stone not found" });
+      }
+  } catch (error) {
+      res.status(500).send({ message: "Error updating stone", error });
+  }
+});
+
 // API endpoint to delete a stone
 app.delete('/api/stones/:id', async (req, res) => {
   try {
