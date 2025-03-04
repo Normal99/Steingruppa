@@ -73,11 +73,12 @@ async function fetchData() {
           </td>
         `;
         // Also allow clicking the row to view details (unless a button was clicked)
-        row.addEventListener("click", (e) => {
-          if (e.target.tagName !== "BUTTON") {
-            showStoneData(item.docId);
-          }
-        });
+      // Use the Firebase document ID when calling ShowStoneData
+      row.addEventListener("click", (e) => {
+        if (e.target.tagName !== "BUTTON") {
+          ShowStoneData(item.docId);
+        }
+      });
         tableBody.appendChild(row);
       });
       console.log("Table updated");
@@ -106,36 +107,38 @@ async function addStone() {
   }
 }
 
-// ---------- SHOW STONE DETAILS (using Firestore doc id) ----------
-async function showStoneData(docId) {
-  try {
-    const docRef = doc(db, "steiner", docId);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      const data = docSnap.data();
-      const detailEl = document.getElementById("stein"); // assumed container for detailed view
-      detailEl.innerHTML = `
-        <h2>${data.steingruppe || ""}</h2>
-        <hr>
-        <div id="steininfo">
-          <div id="info1">
-            <p>Kasse: ${data.kasse || ""}</p>
-            <p>Sted: ${data.sted || ""}</p>
-            <p>ID: ${data.id || ""}</p>
+// Function to show a stone's data using the Firebase document ID
+async function ShowStoneData(docId) {
+    try {
+      console.log('Fetching stone with docId:', docId);
+      const stoneRef = doc(db, "steiner", docId);
+      const stoneDoc = await getDoc(stoneRef);
+      if (stoneDoc.exists()) {
+        const data = stoneDoc.data();
+        console.log('Stone data:', data);
+        let EL = document.getElementById("stein");
+        EL.innerHTML = `
+          <h2>${data.steingruppe}</h2>
+          <hr>
+          <div id="steininfo">
+            <div id="info1">
+              <p>kasse: ${data.kasse}</p>
+              <p>sted: ${data.sted}</p>
+              <p>id: ${data.id || ""}</p>
+            </div>
+            <div id="beskrivelse">
+              <h3 id="steintitle">beskrivelse: </h3>
+              <p>lorem ipsum bla bla bla</p>
+            </div>
           </div>
-          <div id="beskrivelse">
-            <h3>Beskrivelse:</h3>
-            <p>Lorem ipsum bla bla bla</p>
-          </div>
-        </div>
-      `;
-    } else {
-      console.error("No such document!");
+        `;
+      } else {
+        console.log("No such stone with docId:", docId);
+      }
+    } catch (error) {
+      console.error("Error fetching stone data:", error);
     }
-  } catch (error) {
-    console.error("Error fetching stone details:", error);
   }
-}
 
 // ---------- EDIT A STONE ----------
 async function editStone(docId) {
@@ -172,18 +175,16 @@ async function deleteStone(docId) {
   }
 }
 
-// ---------- SHOW / CLOSE EDIT FORM ----------
+// Function to show the edit form populated with stone data
 function showEditForm(stone) {
-  // Fill edit form with stone data
-  document.getElementById('edit-kasse').value = stone.kasse || "";
-  document.getElementById('edit-steingruppe').value = stone.steingruppe || "";
-  document.getElementById('edit-id').value = stone.id || "";
-  document.getElementById('edit-sted').value = stone.sted || "";
-  // Store the docId on the update button using a data attribute
-  document.getElementById('edit-stone-button').setAttribute("data-docid", stone.docId);
-  // Show the edit form
-  document.getElementById('edit-stone-form').style.display = "block";
-}
+    document.getElementById('edit-kasse').value = stone.kasse;
+    document.getElementById('edit-steingruppe').value = stone.steingruppe;
+    document.getElementById('edit-id').value = stone.id || "";
+    document.getElementById('edit-sted').value = stone.sted;
+    document.getElementById('edit-stone-form').style.display = 'block';
+    // Use the Firebase document ID for editing
+    document.getElementById('edit-stone-button').onclick = () => editStone(stone.docId);
+  }
 
 function closeEditForm() {
   document.getElementById('edit-stone-form').style.display = "none";
@@ -223,5 +224,4 @@ window.showEditForm = showEditForm;
 window.closeEditForm = closeEditForm;
 window.addStone = addStone;
 window.fetchData = fetchData;
-window.showStoneData = showStoneData;
 window.editStone = editStone;
