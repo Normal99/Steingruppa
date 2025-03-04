@@ -137,10 +137,20 @@ button {
 #søkefelt {
     width: 100%;
 }
- 
+.søkeboksknapp {
+    width: 40px; /* Adjust the width as needed */
+    height: 40px; /* Adjust the height as needed */
+    border-radius: 50%; /* Make it circular */
+    cursor: pointer; /* Change cursor to pointer */
+    display: flex; /* Center the content */
+    align-items: center; /* Center the content */
+    justify-content: center; /* Center the content */
+    margin: 0 5px; /* Add some margin if needed */
+}
+.søkeboksknapp:hover {
+    background-color: #8E8D81; /* Change background color on hover */
+}
 #filterknapp {
-    width: 10%;
-    height: 100%;
     background: url('bilder/filter.png') no-repeat center;
     background-size: contain;
 }
@@ -148,14 +158,11 @@ button {
 .filterinput {
     display: none;
 }
- 
-.søkeboksknapp:hover {
-    transform: scale(1.1);
-}
- 
+#toggle-view-button {
+    background: url('bilder/card.png') no-repeat center;
+    background-size: contain;
+} 
 #leggtilKnapp {
-    width: 10%;
-    height: 100%;
     background: url('bilder/pluss.png') no-repeat center;
     background-size: contain;
 }
@@ -189,14 +196,38 @@ button {
     border-radius: 15px;
     background-color: #8e8d8183;
 }
-#søkeboks {
+/* Simplified search field container */
+.search-field {
     display: flex;
-    border: 1px, solid, black;
-    height: 5em;
+    align-items: center;
+    max-width: 100%;
+  }
+  
+  /* The text input for search */
+.search__input {
+    flex: 1;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-right: none;
+    border-radius: 25px 0 0 25px;
+    outline: none;
+}
+  
+  /* The search button */
+.search__submit-button {
+    padding: 10px 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-left: none;
+    background-color: hsl(33, 53%, 78%);
+    border-radius: 0 25px 25px 0;
+    cursor: pointer;
 }
 #søkeknapp {
     width: 10%;
     height: 100%;
+    border-radius: 10px;
     background: url('bilder/search.png') no-repeat center;
     background-size: contain;
 }
@@ -207,22 +238,6 @@ button {
     width: 100%;
     height: 100vh;
    
-}
- 
-#stein {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    border: 1px, solid, black;
-    height: 100%;
-    width: 100%;
-}
-#steininfo{
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    justify-content: space-between;
-    margin: 10px;
 }
 #beskrivelse{
     display: flex;
@@ -243,10 +258,53 @@ button {
     height: 100%;
     width: 100%;
 }
- 
+#data-table{
+    width: 100%;
+    text-align: center;
+}
+#cards-container{
+    overflow: auto;
+}
+.card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 8px;
+    width: 200px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+/* Modal styles */
+.modal {
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    width: 80%;
+    max-width: 1000px;
+    border-radius: 8px;
+    position: relative;
+  }
+  
+  .modal-content .close {
+    position: absolute;
+    right: 16px;
+    top: 8px;
+    font-size: 28px;
+    cursor: pointer;
+  } 
 #stein-samling{
     overflow: auto; /* Enables scrolling when content overflows */
-    margin-top: 2%;
 }
 #filters {
     display: flex;
