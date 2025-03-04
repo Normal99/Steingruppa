@@ -167,6 +167,7 @@ async function deleteStone(docId) {
     try {
       await deleteDoc(doc(db, "steiner", docId));
       alert("Stein slettet!");
+      document.getElementById("stein").innerHTML = "";
       fetchData();
     } catch (error) {
       console.error("Error deleting stone:", error);
