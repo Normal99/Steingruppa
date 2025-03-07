@@ -191,6 +191,10 @@ async function showStoneData(docId) {
       console.error("No such document!");
     }
   }
+  catch (error) {
+    console.error("Error getting stone:", error); 
+  }
+}
 
 // Close the modal
 function closeModal() {
