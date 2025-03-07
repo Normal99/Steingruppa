@@ -119,6 +119,7 @@ function renderCards(stones) {
   cardsContainer.style.flexWrap = "wrap";
   cardsContainer.innerHTML = "";
   
+
   stones.forEach(item => {
     const card = document.createElement("div");
     card.classList.add("card");
@@ -189,10 +190,7 @@ async function showStoneData(docId) {
     } else {
       console.error("No such document!");
     }
-  } catch (error) {
-    console.error("Error fetching stone details:", error);
   }
-}
 
 // Close the modal
 function closeModal() {
@@ -222,6 +220,7 @@ async function deleteStone(docId) {
     try {
       await deleteDoc(doc(db, "steiner", docId));
       alert("Stein slettet!");
+
       // If the deleted stone is currently shown, clear its display:
       const modal = document.getElementById("modal");
       if (modal.style.display === "block") {
