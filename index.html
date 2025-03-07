@@ -36,13 +36,13 @@
     <div id="hoved">
         <div id="sok">
                 <div class="search-field">
-                    <input type="text" name="q" class="form-control search__input" id="søkefelt" aria-label="Søk på hele nettstedet" placeholder="Søk" autocomplete="off">
-                    <button type="submit" id="frontpage__search-nowsubsite" class="search__submit-button btn btn-sm mb-0" aria-label="Søk på hele nettstedet">
-                      <span class="material-icons align-text-bottom" aria-hidden="true">search</span>
+                    <input type="text" name="q" class="search__input" id="søkefelt" aria-label="Søk på hele databaset" placeholder="Søk" autocomplete="off">
+                    <button type="submit" class="search__submit-button" aria-label="Søk på hele nettstedet">
+                      <span>Søk</span>
                     </button>
-                <button class="søkeboksknapp" id="leggtilKnapp" onclick="toggleAddStoneForm()"></button>
-                <button class="søkeboksknapp" id="filterknapp" onclick="toggleFilter()"></button>
-                <button class="søkeboksknapp" id="toggle-view-button" onclick="toggleView()" ></button>
+                <button class="søkeboksknapp" id="leggtilKnapp" onclick="toggleAddStoneForm()"><img src="bilder/pluss.png" alt="Legg til stein."></button>
+                <button class="søkeboksknapp" id="filterknapp" onclick="toggleFilter()"><img src="bilder/filter.png" alt="Filtrer steiner"></button>
+                <button class="søkeboksknapp" id="toggle-view-button" onclick="toggleView()" ><img src="bilder/card.png" alt="bytt visning"></button>
             </div>
             <div id="filters" style="display: none;">
                 <input type="text" id="filter-kasse" placeholder="Filtrer med Kasse">

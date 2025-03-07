@@ -123,7 +123,7 @@ function renderCards(stones) {
     const card = document.createElement("div");
     card.classList.add("card");
     card.innerHTML = `
-      <img src="./bilder/placeholder.jpg" alt="Stein" style="width:100%; border-radius: 4px;">
+      <img src="./bilder/placeholder.png" alt="Stein" style="width:100%; border-radius: 4px;">
       <h3>${item.steingruppe || "Ukjent"}</h3>
       <p><strong>Kasse:</strong> ${item.kasse || ""}</p>
       <p><strong>ID:</strong> ${item.id || ""}</p>

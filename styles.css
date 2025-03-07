@@ -58,28 +58,16 @@ header {
     margin-left: 12%;
 }
  
-#oppdrag {
-    background-color: #8E8D81;
-    border: 0px;
-    font-size: larger;
-}
- 
-#sprak {
-    background-color: #8E8D81;
-    border: 0px;
-    font-size: larger;
-}
- 
-#kontakt {
-    background-color: #8E8D81;
-    border: 0px;
-    font-size: larger;
-}
- 
+#oppdrag,
+#sprak,
+#kontakt,
 #profilH {
     background-color: #8E8D81;
-    border: 0px;
+    border: 0;
     font-size: larger;
+}
+*, *::before, *::after {
+    box-sizing: border-box;
 }
  
 /* Mobile Layout Adjustments */
@@ -124,10 +112,6 @@ header {
         font-size: 0.9rem; /* Smaller font size */
     }
  
-    /* Ensure content doesn't overlap the footer */
-    body {
-        box-sizing: border-box;
-    }
 }
  
 button {
@@ -141,30 +125,20 @@ button {
     width: 40px; /* Adjust the width as needed */
     height: 40px; /* Adjust the height as needed */
     border-radius: 50%; /* Make it circular */
+    overflow: hidden;
     cursor: pointer; /* Change cursor to pointer */
-    display: flex; /* Center the content */
+    display: inline-flex; /* Center the content */
     align-items: center; /* Center the content */
     justify-content: center; /* Center the content */
     margin: 0 5px; /* Add some margin if needed */
 }
+.søkeboksknapp img {
+    object-fit: contain;
+    width: 30px;
+    height: 30px;
+}
 .søkeboksknapp:hover {
-    background-color: #8E8D81; /* Change background color on hover */
-}
-#filterknapp {
-    background: url('bilder/filter.png') no-repeat center;
-    background-size: contain;
-}
- 
-.filterinput {
-    display: none;
-}
-#toggle-view-button {
-    background: url('bilder/card.png') no-repeat center;
-    background-size: contain;
-} 
-#leggtilKnapp {
-    background: url('bilder/pluss.png') no-repeat center;
-    background-size: contain;
+   background-color: #8E8D81;
 }
 #add-stone-form h2
 #edit-stone-form h2 {
@@ -265,6 +239,10 @@ button {
 #cards-container{
     overflow: auto;
 }
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
 .card {
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -273,7 +251,9 @@ button {
     width: 200px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
 /* Modal styles */
 .modal {
     position: fixed;
@@ -324,7 +304,6 @@ nav {
     margin-right: 12%;
     border-color: #8E8D81;
     border-style: solid;
-    border-top: 15%;
 }
  
 footer {
