@@ -223,13 +223,11 @@ button {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-right: 10%;
 }
 #info1{
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-left: 10%;
 }
 #sok {
     display: flex;
