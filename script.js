@@ -53,84 +53,172 @@ async function fetchData() {
   }
 }
 
+// Function to add a new stone
+async function addStone() {
+  try {
+      // Get the values from the input fields
+      const kasse = document.getElementById('new-kasse').value;
+      const steingruppe = document.getElementById('new-steingruppe').value;
+      const id = document.getElementById('new-id').value;
+      const sted = document.getElementById('new-sted').value;
 
+      // Create a new stone object with the input values
+      const newStone = { kasse, steingruppe, id, sted };
 
+      // Send a POST request to the server to add the new stone
+      const response = await fetch('http://localhost:3000/api/stones', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(newStone)
+      });
 
+      // Check if the response is successful
+      if (response.ok) {
+          alert('Stone added successfully');
+          fetchData(); // Refresh the table data
+      } else {
+          // Handle errors if the response is not successful
+          const errorData = await response.json();
+          alert(`Error adding stone: ${errorData.message}`);
+      }
+  } catch (error) {
+      // Log any errors that occur during the fetch
+      console.error('Error adding stone:', error);
+  }
+}
 
-// Function to toggle the visibility of the add stone form ved det mennesklig ord betyr dette at man viser greia for å adde steinene bare når du trykker på knappen.
+// Show stone details in a modal
+async function showStoneData(docId) {
+  try {
+    const docRef = doc(db, "steiner", docId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      const modalBody = document.getElementById("modal-body");
+      modalBody.innerHTML = `
+        <h2>${data.steingruppe || ""}</h2>
+        <hr>
+        <div id="steininfo">
+          <div id="info1">
+            <p><strong>Kasse:</strong> ${data.kasse || ""}</p>
+            <p><strong>Sted:</strong> ${data.sted || ""}</p>
+            <p><strong>ID:</strong> ${data.id || ""}</p>
+          </div>
+          <div id="beskrivelse">
+            <h3>Beskrivelse:</h3>
+            <p>Lorem ipsum bla bla bla</p>
+          </div>
+        </div>
+      `;
+      document.getElementById("modal").style.display = "block";
+    } else {
+      console.error("No such document!");
+    }
+  }
+  catch (error) {
+    console.error("Error getting stone:", error); 
+  }
+}
+
+// Close the modal
+function closeModal() {
+  document.getElementById("modal").style.display = "none";
+}
+
+// Edit a stone
+async function editStone(docId) {
+  try {
+    const kasse = document.getElementById('edit-kasse').value.trim();
+    const steingruppe = document.getElementById('edit-steingruppe').value.trim();
+    const id = document.getElementById('edit-id').value.trim();
+    const sted = document.getElementById('edit-sted').value.trim();
+    const updatedStone = { kasse, steingruppe, id, sted };
+
+    await updateDoc(doc(db, "steiner", docId), updatedStone);
+    alert("Stein oppdatert!");
+    closeEditForm();
+  } catch (error) {
+    console.error("Error updating stone:", error);
+  }
+}
+
+// Delete a stone (also clears modal info if showing)
+async function deleteStone(docId) {
+  if (confirm("Er du sikker på at du vil slette denne steinen?")) {
+    try {
+      await deleteDoc(doc(db, "steiner", docId));
+      alert("Stein slettet!");
+
+      // If the deleted stone is currently shown, clear its display:
+      const modal = document.getElementById("modal");
+      if (modal.style.display === "block") {
+        closeModal();
+      }
+    } catch (error) {
+      console.error("Error deleting stone:", error);
+      alert("Feil ved sletting!");
+    }
+  }
+}
+
+// ---------- UI HELPERS ----------
+
+// Show/close edit form
+function showEditForm(stone) {
+  document.getElementById('edit-kasse').value = stone.kasse || "";
+  document.getElementById('edit-steingruppe').value = stone.steingruppe || "";
+  document.getElementById('edit-id').value = stone.id || "";
+  document.getElementById('edit-sted').value = stone.sted || "";
+  document.getElementById('edit-stone-button').setAttribute("data-docid", stone.docId);
+  document.getElementById('edit-stone-form').style.display = "block";
+}
+function closeEditForm() {
+  document.getElementById('edit-stone-form').style.display = "none";
+}
+
+// Toggle visibility of add-form & filters
 function toggleAddStoneForm() {
   const form = document.getElementById('add-stone-form');
-  if (form.style.display === 'none' || form.style.display === '') {
-      form.style.display = 'block';
-  } else {
-      form.style.display = 'none';
-  }
+  form.style.display = (form.style.display === "block") ? "none" : "block";
 }
-
-// Function to toggle the visibility of the add stone form ved det mennesklig ord betyr dette at man viser greia for å adde steinene bare når du trykker på knappen.
 function toggleFilter() {
-    const form = document.getElementById('filters');
-    if (form.style.display === 'none' || form.style.display === '') {
-        form.style.display = 'block';
-    } else {
-        form.style.display = 'none';
-    }
-  }
-
-async function ShowStoneData(id) {
-    try {
-        const response = await fetch(`http://localhost:3000/api/stones/${id}`);
-        const data = await response.json();
-        let EL = document.getElementById("stein")
-        console.log(data)
-        EL.innerHTML = `
-              <h2>${data.steingruppe}</h2>
-              <hr>
-              <div id="steininfo">
-              <div id="info1">
-              <p>kasse: ${data.kasse}</p>
-              <p>sted: ${data.sted}</p>
-              <p>id: ${data.id}</p>
-              </div>
-              <div id="beskrivelse">
-              <h3 id="steintitle">beskrivelse: </h3>
-              <p>lorem ipsum bla bla bla</p>
-              </div>
-              </div>
-          `;
-        
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  }
-
-// Function to delete a stone
-async function deleteStone(stoneId) {
-    try {
-        console.log(`Deleting stone with ID: ${stoneId}`); // Log the stone ID
-        // Send a DELETE request to the server to delete the stone
-        const response = await fetch(`http://localhost:3000/api/stones/${stoneId}`, {
-            method: 'DELETE',
-        });
-        const result = await response.json();
-
-        if (response.ok) {
-            alert(result.message);
-            // Refresh the table data
-            fetchData();
-        } else {
-            alert(`Error: ${result.message}`);
-        }
-    } catch (error) {
-        console.error('Error deleting stone:', error);
-        alert('Error deleting stone');
-    }
+  const form = document.getElementById('filters');
+  form.style.display = (form.style.display === "block") ? "none" : "block";
 }
-  
 
+// Toggle between table and card view
+function toggleView() {
+  viewMode = (viewMode === "table") ? "card" : "table";
+  renderView(applyFilters(allStones));
+}
 
-// Fetch data on page load
-window.onload = fetchData;
+// ---------- EVENT LISTENERS ----------
 
-// Optional: Refresh data every 5 seconds
-setInterval(fetchData, 5000);
+document.getElementById('edit-stone-button').addEventListener("click", () => {
+  const docId = document.getElementById('edit-stone-button').getAttribute("data-docid");
+  if(docId) { editStone(docId); }
+});
+
+// Re-render view on filter input changes
+document.getElementById('søkefelt').addEventListener('input', () => renderView(applyFilters(allStones)));
+document.getElementById('filter-kasse').addEventListener('input', () => renderView(applyFilters(allStones)));
+document.getElementById('filter-steingruppe').addEventListener('input', () => renderView(applyFilters(allStones)));
+document.getElementById('filter-id').addEventListener('input', () => renderView(applyFilters(allStones)));
+document.getElementById('filter-sted').addEventListener('input', () => renderView(applyFilters(allStones)));
+
+// Expose functions globally if needed by inline HTML
+window.toggleAddStoneForm = toggleAddStoneForm;
+window.toggleFilter = toggleFilter;
+window.deleteStone = deleteStone;
+window.showEditForm = showEditForm;
+window.closeEditForm = closeEditForm;
+window.addStone = addStone;
+window.showStoneData = showStoneData;
+window.editStone = editStone;
+window.toggleView = toggleView;
+window.closeModal = closeModal;
+
+// Start listening in real time on page load
+window.addEventListener("load", subscribeToStones);
