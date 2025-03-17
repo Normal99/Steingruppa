@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Steingruppa</title>
+    <link rel="icon" href="https://avatars.githubusercontent.com/u/191089173?v=4">
     <link rel="stylesheet" href="styles.css">
 
     <!-- Nunito Font -->
@@ -34,23 +35,23 @@
     </div>
 
     <div id="hoved">
-        <div id="stein">
-        </div>
         <div id="sok">
-            <div id="søkeboks">
-                <input type="text" id="søkefelt" placeholder="Søk">
-                <button class="søkeboksknapp" id="søkeknapp" onclick="fetchData()"></button>
-                <button class="søkeboksknapp" id="leggtilKnapp" onclick="toggleAddStoneForm()"></button>
-                <button class="søkeboksknapp" id="filterknapp" onclick="toggleFilter()"></button>
+                <div class="search-field">
+                    <input type="text" name="q" class="search__input" id="søkefelt" aria-label="Søk på hele databaset" placeholder="Søk" autocomplete="off">
+                    <button type="submit" class="search__submit-button" aria-label="Søk på hele nettstedet">
+                      <span>Søk</span>
+                    </button>
+                <button class="søkeboksknapp" id="leggtilKnapp" onclick="toggleAddStoneForm()"><img src="bilder/pluss.png" alt="Legg til stein."></button>
+                <button class="søkeboksknapp" id="filterknapp" onclick="toggleFilter()"><img src="bilder/filter.png" alt="Filtrer steiner"></button>
+                <button class="søkeboksknapp" id="toggle-view-button" onclick="toggleView()" ><img src="bilder/card.png" alt="bytt visning"></button>
             </div>
-
+            <div id="filters" style="display: none;">
+                <input type="text" id="filter-kasse" placeholder="Filtrer med Kasse">
+                <input type="text" id="filter-steingruppe" placeholder="Filtrer med Steingruppe">
+                <input type="text" id="filter-id" placeholder="Filtrer med ID">
+                <input type="text" id="filter-sted" placeholder="Filtrer med Sted">
+            </div>
             <div id="ekstrating">
-                <div id="filters" style="display: none;">
-                    <input type="text" id="filter-kasse" placeholder="Filter by Kasse">
-                    <input type="text" id="filter-steingruppe" placeholder="Filter by Steingruppe">
-                    <input type="text" id="filter-id" placeholder="Filter by ID">
-                    <input type="text" id="filter-sted" placeholder="Filter by Sted">
-                </div>
                 <div id="add-stone-form" style="display: none;">
                     <h2>Legg til ny stein</h2>
                     <div>
@@ -67,6 +68,26 @@
                     </div>
                     <button id="addStone" onclick="addStone()">Legg til stein</button>
                 </div>
+                <div id="edit-stone-form" style="display: none;">
+                    <h2>Rediger stein</h2>
+                    <div>
+                        <input type="text" id="edit-kasse">
+                    </div>
+                    <div>
+                        <input type="text" id="edit-steingruppe">
+                    </div>
+                    <div>
+                        <input type="text" id="edit-id">
+                    </div>
+                    <div>
+                        <input type="text" id="edit-sted">
+                    </div>
+                    <button id="edit-stone-button">Oppdater stein</button>
+                    <button id="close-form-button" onclick="closeEditForm()">✕</button>
+                </div>
+            </div>
+            <div id="cards-container" style="display: none;">
+                <h1>test</h1>
             </div>
             <div id="stein-samling">
                 <table id="data-table">
@@ -76,6 +97,7 @@
                             <th>Steingruppe</th>
                             <th>ID</th>
                             <th>Sted</th>
+                            <th>Handlinger</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -86,6 +108,15 @@
         </div>
         </div>
     </div>
+    <!-- Modal for stone details -->
+<div id="modal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span class="close" id="modal-close" onclick="closeModal()">&times;</span>
+        <div id="modal-body">
+            <!-- Stone details will be injected here -->
+        </div>
+    </div>
+</div>
     <footer>
         <div class = "footer1" id = "kontaktFooter">
             <p><B>Kontakt oss</B></p>
@@ -103,6 +134,6 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>
