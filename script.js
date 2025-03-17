@@ -1,91 +1,165 @@
-// Function to fetch data from the server and update the table
-async function fetchData() {
-  try {
-      // Bruk objekter her for å fylle inn hva enn
-      //const {allesteiner} = require('./mongoDB til object');
-      //console.log(allesteiner)
-      //noe sånt er ikke sikker, forstår ikke koden
+//// filepath: /c:/Users/VolkanBayram/Dokumenter/GitHub/Steingruppa/script.js
+import { 
+  initializeApp 
+} from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+import { 
+  getFirestore, collection, onSnapshot, addDoc, updateDoc, deleteDoc, doc, getDoc, query, orderBy 
+} from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyCWIFCogJ15e4dPLtOMxhLOtxMrlyOskGc",
+  authDomain: "steingruppa.firebaseapp.com",
+  projectId: "steingruppa",
+  storageBucket: "steingruppa.firebasestorage.app",
+  messagingSenderId: "1067625469581",
+  appId: "1:1067625469581:web:a3ccfc19a4b0035710f4c4"
+};
 
-      const søkefelt = document.getElementById('søkefelt').value;
-      const filterKasse = document.getElementById('filter-kasse').value;
-      const filterSteingruppe = document.getElementById('filter-steingruppe').value;
-      const filterId = document.getElementById('filter-id').value;
-      const filterSted = document.getElementById('filter-sted').value;
+// Initialize Firebase and Firestore
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-      // Create a query string from the input values
-      const query = new URLSearchParams({
-          søkefelt,
-          filterKasse,
-          filterSteingruppe,
-          filterId,
-          filterSted
-      });
+// Global settings & data
+let viewMode = "table"; // "table" or "card"
+let allStones = [];      // will hold the raw stone data
+let unsubscribe;         // holds the onSnapshot unsubscribe function
 
-      // Fetch data from the server using the query string
-      const response = await fetch(`http://localhost:3000/api/stones?${query.toString()}`);
-      const data = await response.json();
+// Start real‑time listener using onSnapshot
+function subscribeToStones() {
+  const stonesQuery = query(collection(db, "steiner"), orderBy("kasse"));
+  // Unsubscribe any previous listener
+  if (unsubscribe) { unsubscribe(); }
+  unsubscribe = onSnapshot(stonesQuery, snapshot => {
+    allStones = snapshot.docs.map(docSnap => ({ docId: docSnap.id, ...docSnap.data() }));
+    renderView(applyFilters(allStones));
+    console.log("Realtime update:", allStones);
+  }, error => {
+    console.error("Error listening to stones:", error);
+  });
+}
 
-      // Get the table body element
-      const tableBody = document.querySelector('#data-table tbody');
-      tableBody.innerHTML = ''; // Clear previous rows
+// Apply client‑side filtering based on input values
+function applyFilters(stones) {
+  const søkefelt = document.getElementById('søkefelt').value.trim().toLowerCase();
+  const filterKasse = document.getElementById('filter-kasse').value.trim().toLowerCase();
+  const filterSteingruppe = document.getElementById('filter-steingruppe').value.trim().toLowerCase();
+  const filterId = document.getElementById('filter-id').value.trim().toLowerCase();
+  const filterSted = document.getElementById('filter-sted').value.trim().toLowerCase();
 
-      // Populate the table with the fetched data
-      data.forEach(item => {
-          const row = document.createElement('tr');
-          row.innerHTML = `
-              <td>${item.kasse}</td>
-              <td>${item.steingruppe}</td>
-              <td>${item.id}</td>
-              <td>${item.sted}</td>
-              <td><button onclick="deleteStone('${item._id}')">🗑️</button></td>
-          `;
-          row.addEventListener("click", () =>{
-            console.log(item._id)
-            ShowStoneData(item._id)
-          })
-          // Append the row to the table body
-          tableBody.appendChild(row);
-      });
-  } catch (error) {
-      // Log any errors that occur during the fetch
-      console.error('Error fetching data:', error);
+  return stones.filter(s => {
+    let match = true;
+    if (søkefelt) {
+      match = match && (
+        (s.kasse && s.kasse.toLowerCase().includes(søkefelt)) ||
+        (s.steingruppe && s.steingruppe.toLowerCase().includes(søkefelt)) ||
+        (s.id && s.id.toLowerCase().includes(søkefelt)) ||
+        (s.sted && s.sted.toLowerCase().includes(søkefelt))
+      );
+    }
+    if (filterKasse) {
+      match = match && (s.kasse && s.kasse.toLowerCase().includes(filterKasse));
+    }
+    if (filterSteingruppe) {
+      match = match && (s.steingruppe && s.steingruppe.toLowerCase().includes(filterSteingruppe));
+    }
+    if (filterId) {
+      match = match && (s.id && s.id.toLowerCase().includes(filterId));
+    }
+    if (filterSted) {
+      match = match && (s.sted && s.sted.toLowerCase().includes(filterSted));
+    }
+    return match;
+  });
+}
+
+// Pick which view to render based on viewMode
+function renderView(filteredStones) {
+  if (viewMode === "table") {
+    renderTable(filteredStones);
+  } else {
+    renderCards(filteredStones);
   }
 }
 
-// Function to add a new stone
+// Render table view
+function renderTable(stones) {
+  document.getElementById("data-table").style.display = "table";
+  document.getElementById("cards-container").style.display = "none";
+  
+  const tableBody = document.querySelector('#data-table tbody');
+  tableBody.innerHTML = "";
+  stones.forEach(item => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${item.kasse || ""}</td>
+      <td>${item.steingruppe || ""}</td>
+      <td>${item.id || ""}</td>
+      <td>${item.sted || ""}</td>
+      <td>
+        <button onclick="deleteStone('${item.docId}')">🗑️</button>
+        <button onclick='showEditForm(${JSON.stringify(item).replace(/'/g, "&#39;")})'>✏️</button>
+      </td>
+    `;
+    row.addEventListener("click", (e) => {
+      if (e.target.tagName !== "BUTTON") {
+        showStoneData(item.docId);
+      }
+    });
+    tableBody.appendChild(row);
+  });
+  console.log("Table view updated");
+}
+
+// Render card view
+function renderCards(stones) {
+  document.getElementById("data-table").style.display = "none";
+  const cardsContainer = document.getElementById("cards-container");
+  cardsContainer.style.display = "flex";
+  cardsContainer.style.flexWrap = "wrap";
+  cardsContainer.innerHTML = "";
+  
+
+  stones.forEach(item => {
+    const card = document.createElement("div");
+    card.classList.add("card");
+    card.innerHTML = `
+      <img src="./bilder/placeholder.png" alt="Stein" style="width:100%; border-radius: 4px;">
+      <h3>${item.steingruppe || "Ukjent"}</h3>
+      <p><strong>Kasse:</strong> ${item.kasse || ""}</p>
+      <p><strong>ID:</strong> ${item.id || ""}</p>
+      <p><strong>Sted:</strong> ${item.sted || ""}</p>
+      <div>
+        <button onclick="deleteStone('${item.docId}')">🗑️</button>
+        <button onclick='showEditForm(${JSON.stringify(item).replace(/'/g, "&#39;")})'>✏️</button>
+      </div>
+    `;
+    card.addEventListener("click", (e) => {
+      if (e.target.tagName !== "BUTTON") {
+        showStoneData(item.docId);
+      }
+    });
+    cardsContainer.appendChild(card);
+  });
+  console.log("Card view updated");
+}
+
+// ---------- CRUD OPERATIONS ----------
+
+// Add a new stone
 async function addStone() {
   try {
-      // Get the values from the input fields
-      const kasse = document.getElementById('new-kasse').value;
-      const steingruppe = document.getElementById('new-steingruppe').value;
-      const id = document.getElementById('new-id').value;
-      const sted = document.getElementById('new-sted').value;
+    const kasse = document.getElementById('new-kasse').value.trim();
+    const steingruppe = document.getElementById('new-steingruppe').value.trim();
+    const id = document.getElementById('new-id').value.trim();
+    const sted = document.getElementById('new-sted').value.trim();
 
-      // Create a new stone object with the input values
-      const newStone = { kasse, steingruppe, id, sted };
-
-      // Send a POST request to the server to add the new stone
-      const response = await fetch('http://localhost:3000/api/stones', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(newStone)
-      });
-
-      // Check if the response is successful
-      if (response.ok) {
-          alert('Stone added successfully');
-          fetchData(); // Refresh the table data
-      } else {
-          // Handle errors if the response is not successful
-          const errorData = await response.json();
-          alert(`Error adding stone: ${errorData.message}`);
-      }
+    const newStone = { kasse, steingruppe, id, sted };
+    const docRef = await addDoc(collection(db, "steiner"), newStone);
+    alert("Stein lagt til med id: " + docRef.id);
+    // No need to manually re-fetch data—onSnapshot does real‑time updates.
   } catch (error) {
-      // Log any errors that occur during the fetch
-      console.error('Error adding stone:', error);
+    console.error("Error adding stone:", error);
   }
 }
 
