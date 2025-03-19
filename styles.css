@@ -393,6 +393,10 @@ tbody :hover{
     background-color: #D4748B;
 }
 
+table, th, td {
+    border-collapse: collapse;
+}
+
 @keyframes fadein {
     from { opacity: 0; scale: 0.99;} 
     to   { opacity: 1; }
