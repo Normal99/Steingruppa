@@ -254,6 +254,14 @@ button {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.field-double {
+    display: flex;
+    gap: 20px;
+  }
+  .field-half {
+    flex: 1;
+  }
+
 /* Modal styles */
 .modal {
     position: fixed;
