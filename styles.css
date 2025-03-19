@@ -287,6 +287,16 @@ button {
     text-align: center;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+#tablehead{
+    cursor:pointer;
+}
+
+@media screen and (min-width: 768px) {
+    #sok {
+        margin-left: 12%;
+        margin-right: 12%;
+    }
+}
 
 /* Modal styles */
 .modal {
