@@ -146,6 +146,39 @@ function renderCards(stones) {
 
 // ---------- CRUD OPERATIONS ----------
 
+const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
+
+const comparer = (idx, asc) => (a, b) => {
+const v1 = getCellValue(asc ? a : b, idx);
+const v2 = getCellValue(asc ? b : a, idx);
+return (v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2))
+    ? v1 - v2                                                                           
+    : v1.toString().localeCompare(v2);
+};
+
+// Add sorting functionality
+document.querySelectorAll('th').forEach(th => {
+th.addEventListener('click', function () {
+    const table = th.closest('table');
+    const tbody = table.querySelector('tbody');
+    const index = Array.from(th.parentNode.children).indexOf(th);
+    const ascending = !this.asc;
+
+    // Remove arrows from all headers
+    document.querySelectorAll('th').forEach(header => {
+    header.textContent = header.textContent.replace(/[\u25B2\u25BC]/g, '');
+    });
+
+    // Append the appropriate arrow
+    th.textContent += ascending ? ' ▲' : ' ▼';
+    this.asc = ascending;
+
+    // Sort rows
+    Array.from(tbody.querySelectorAll('tr'))
+    .sort(comparer(index, ascending))
+    .forEach(row => tbody.appendChild(row));
+});
+});
 // Add a new stone
 async function addStone() {
   try {

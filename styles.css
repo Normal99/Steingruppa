@@ -272,6 +272,10 @@ button {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+#tablehead{
+    cursor:pointer;
+}
+
 /* Modal styles */
 .modal {
     position: fixed;
