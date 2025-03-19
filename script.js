@@ -190,8 +190,10 @@ async function showStoneData(docId) {
     } else {
       console.error("No such document!");
     }
+  }  catch (error) {
+  console.error("Error fetching stone details:", error);
   }
-
+}
 // Close the modal
 function closeModal() {
   document.getElementById("modal").style.display = "none";
@@ -252,40 +254,51 @@ function toggleRequestFields() {
 }
 
 
-// Call this function when a user clicks a request button (for update or delete)
-// It auto-populates the current values and saves the stone's docId
+// Function to show the request modal (similar to showStoneData's modal)
+function showRequestModal() {
+  document.getElementById("request-modal").style.display = "block";
+}
+
+// Function to close the request modal
+function closeRequestModal() {
+  document.getElementById("request-modal").style.display = "none";
+}
+
+// Update populateRequestForm to open the modal (design stays consistent)
 function populateRequestForm(stone, requestType) {
-  console.log("Populating request for stone:", stone);
-  // Set the request type dropdown
-  document.getElementById('request-type').value = requestType;
-  // Toggle request form fields based on type
-  toggleRequestFields();
+console.log("Populating request for stone:", stone);
+// Set the request type dropdown
+document.getElementById('request-type').value = requestType;
+// Toggle request form fields based on type
+toggleRequestFields();
+
+if (requestType === "update" || requestType === "delete") {
+  // Populate the current (readonly) fields with this stone's details
+  document.getElementById('current-kasse').value = stone.kasse || "";
+  document.getElementById('current-steingruppe').value = stone.steingruppe || "";
+  document.getElementById('current-id').value = stone.id || "";
+  document.getElementById('current-sted').value = stone.sted || "";
+  // Store the Firestore docId in a hidden field so the request is tied to this stone
+  document.getElementById('request-stone-docid').value = stone.docId;
   
-  if (requestType === "update" || requestType === "delete") {
-    // Populate the current (readonly) fields with this stone's details
-    document.getElementById('current-kasse').value = stone.kasse || "";
-    document.getElementById('current-steingruppe').value = stone.steingruppe || "";
-    document.getElementById('current-id').value = stone.id || "";
-    document.getElementById('current-sted').value = stone.sted || "";
-    // Store the Firestore docId in a hidden field so the request is tied to this stone
-    document.getElementById('request-stone-docid').value = stone.docId;
-    
-    // For update requests, pre-fill the new field values (side-by-side comparison)
-    if (requestType === "update") {
-      document.getElementById('req-new-kasse').value = stone.kasse || "";
-      document.getElementById('req-new-steingruppe').value = stone.steingruppe || "";
-      document.getElementById('req-new-id').value = stone.id || "";
-      document.getElementById('req-new-sted').value = stone.sted || "";
-    }
-  } else if (requestType === "add") {
-    // Clear any existing stone reference
-    document.getElementById('request-stone-docid').value = "";
-    // Clear the add request fields
-    document.getElementById('req-add-kasse').value = "";
-    document.getElementById('req-add-steingruppe').value = "";
-    document.getElementById('req-add-id').value = "";
-    document.getElementById('req-add-sted').value = "";
+  // For update requests, pre-fill the new field values (side-by-side comparison)
+  if (requestType === "update") {
+    document.getElementById('req-new-kasse').value = stone.kasse || "";
+    document.getElementById('req-new-steingruppe').value = stone.steingruppe || "";
+    document.getElementById('req-new-id').value = stone.id || "";
+    document.getElementById('req-new-sted').value = stone.sted || "";
   }
+} else if (requestType === "add") {
+  // Clear any existing stone reference
+  document.getElementById('request-stone-docid').value = "";
+  // Clear the add request fields
+  document.getElementById('req-add-kasse').value = "";
+  document.getElementById('req-add-steingruppe').value = "";
+  document.getElementById('req-add-id').value = "";
+  document.getElementById('req-add-sted').value = "";
+}
+// Show the request modal
+showRequestModal();
 }
 
 function closeRequest() {
@@ -421,6 +434,8 @@ window.populateRequestForm = populateRequestForm;
 window.submitRequest = submitRequest;
 window.toggleRequestFields = toggleRequestFields;
 window.closeRequest = closeRequest;
+window.showRequestModal = showRequestModal;
+window.closeRequestModal = closeRequestModal;
 
 // Start listening in real time on page load
 window.addEventListener("load", subscribeToStones);
