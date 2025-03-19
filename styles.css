@@ -164,12 +164,12 @@ button {
 #addStone {
     border-radius: 15px;
     margin-top: 4%;
-    background-color: #9c9b8283;
+    background-color: #abaa9d83;
     transition: background-color 0.1s ease;
 }
 
 #addStone:hover {
-    background-color: #8E8D81;
+    background-color: #63625883;  
 }
 
 
