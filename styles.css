@@ -244,7 +244,7 @@ button {
 #sok {
     display: flex;
     flex-direction: column;
-    border: 1px, solid, black;
+    border: 0px, solid, black;
     height: 100%;
     width: 100%;
     margin-left: 12%;
