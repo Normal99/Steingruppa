@@ -3,8 +3,7 @@
 }
 
 :root{
-    --main: /*hoved farge her*/;
-    /*legg til andre farge temaer*/
+    --main: #4C8690;
 }
  
 body {
@@ -36,7 +35,7 @@ nav h2 {
 }
  
 header {
-    background-color: #D4748B;
+    background-color: var(--main);
 }
  
 .headMain {
@@ -49,7 +48,7 @@ header {
  
 .head-h {
     justify-content: end;
-    background-color: #D4748B;
+    background-color: var(--main);
     font-family: "Nunito Sans", serif;
     margin-right: 12%;
 }
@@ -57,7 +56,7 @@ header {
  
 .head-v {
     justify-content: start;
-    background-color: #D4748B;
+    background-color: var(--main);
     font-family: "Nunito Sans", serif;
     margin-left: 12%;
 }
@@ -67,13 +66,13 @@ header {
     color: black;
 }
 #kontakt{
-    background-color: #D4748B;
+    background-color: var(--main);
     border: 0;
     font-size: larger;
 }
 
 #oppdrag, #sprak, #profilH, #kontakt {
-    background-color: #D4748B;
+    background-color: var(--main);;
     border: 0;
     font-size: larger;
 }
@@ -110,7 +109,7 @@ header {
     footer {
         display: flex;
         flex-direction: column;
-        background-color: #D4748B;
+        background-color: var(--main);;
         padding: 20px 0; /* Add vertical padding for spacing */
         width: 100%;
         position: relative;
@@ -154,7 +153,7 @@ button {
     height: 30px;
 }
 .søkeboksknapp:hover {
-   background-color: #D4748B;
+   background-color: var(--main);;
 }
 #add-stone-form h2
 #edit-stone-form h2 {
@@ -345,12 +344,12 @@ nav {
 .underline {
     margin-left: 12%;
     margin-right: 12%;
-    border-color: #D4748B;
+    border-color: var(--main);;
     border-style: solid;
 }
  
 footer {
-    background-color: #D4748B;
+    background-color: var(--main);;
     color: black;
     display: flex;
     flex-direction: row;
@@ -399,7 +398,7 @@ footer {
 }
 
 tbody :hover{
-    background-color: #D4748B;
+    background-color: var(--main);;
 }
 
 table, th, td {
