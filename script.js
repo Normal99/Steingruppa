@@ -97,8 +97,8 @@ function renderTable(stones) {
       <td>${item.id || ""}</td>
       <td>${item.sted || ""}</td>
       <td>
-        <button onclick="deleteStone('${item.docId}')">🗑️</button>
-        <button onclick='showEditForm(${JSON.stringify(item).replace(/'/g, "&#39;")})'>✏️</button>
+        <button onclick='populateRequestForm(${JSON.stringify(item).replace(/'/g, "&#39;")}, "delete")'>🗑️</button>
+        <button onclick='populateRequestForm(${JSON.stringify(item).replace(/'/g, "&#39;")}, "update")'>✏️</button>
       </td>
     `;
     row.addEventListener("click", (e) => {
@@ -130,8 +130,8 @@ function renderCards(stones) {
       <p><strong>ID:</strong> ${item.id || ""}</p>
       <p><strong>Sted:</strong> ${item.sted || ""}</p>
       <div>
-        <button onclick="deleteStone('${item.docId}')">🗑️</button>
-        <button onclick='showEditForm(${JSON.stringify(item).replace(/'/g, "&#39;")})'>✏️</button>
+        <button onclick='populateRequestForm(${JSON.stringify(item).replace(/'/g, "&#39;")}, "delete")'>🗑️</button>
+        <button onclick='populateRequestForm(${JSON.stringify(item).replace(/'/g, "&#39;")}, "update")'>✏️</button>
       </div>
     `;
     card.addEventListener("click", (e) => {
@@ -270,6 +270,134 @@ async function deleteStone(docId) {
   }
 }
 
+// Toggle visible fields based on request type
+function toggleRequestFields() {
+  const type = document.getElementById('request-type').value;
+  // Hide all sections first
+  document.getElementById('add-request-fields').style.display = "none";
+  document.getElementById('current-request-fields').style.display = "none";
+  document.getElementById('update-request-fields').style.display = "none";
+  
+  if (type === "add") {
+    document.getElementById('add-request-fields').style.display = "block";
+  } else if (type === "update") {
+    document.getElementById('current-request-fields').style.display = "block";
+    document.getElementById('update-request-fields').style.display = "block";
+  } else if (type === "delete") {
+    document.getElementById('current-request-fields').style.display = "block";
+  }
+}
+
+
+// Call this function when a user clicks a request button (for update or delete)
+// It auto-populates the current values and saves the stone's docId
+function populateRequestForm(stone, requestType) {
+  console.log("Populating request for stone:", stone);
+  // Set the request type dropdown
+  document.getElementById('request-type').value = requestType;
+  // Toggle request form fields based on type
+  toggleRequestFields();
+  
+  if (requestType === "update" || requestType === "delete") {
+    // Populate the current (readonly) fields with this stone's details
+    document.getElementById('current-kasse').value = stone.kasse || "";
+    document.getElementById('current-steingruppe').value = stone.steingruppe || "";
+    document.getElementById('current-id').value = stone.id || "";
+    document.getElementById('current-sted').value = stone.sted || "";
+    // Store the Firestore docId in a hidden field so the request is tied to this stone
+    document.getElementById('request-stone-docid').value = stone.docId;
+    
+    // For update requests, pre-fill the new field values (side-by-side comparison)
+    if (requestType === "update") {
+      document.getElementById('req-new-kasse').value = stone.kasse || "";
+      document.getElementById('req-new-steingruppe').value = stone.steingruppe || "";
+      document.getElementById('req-new-id').value = stone.id || "";
+      document.getElementById('req-new-sted').value = stone.sted || "";
+    }
+  } else if (requestType === "add") {
+    // Clear any existing stone reference
+    document.getElementById('request-stone-docid').value = "";
+    // Clear the add request fields
+    document.getElementById('req-add-kasse').value = "";
+    document.getElementById('req-add-steingruppe').value = "";
+    document.getElementById('req-add-id').value = "";
+    document.getElementById('req-add-sted').value = "";
+  }
+}
+
+function closeRequest() {
+  // Force all toggled sections to hide
+  document.getElementById('add-request-fields').style.display = "none";
+  document.getElementById('current-request-fields').style.display = "none";
+  document.getElementById('update-request-fields').style.display = "none";
+}
+
+// Submit the request – this creates a document in the "requests" collection
+// You may want to add additional properties like timestamp and requester info
+async function submitRequest() {
+  const requestType = document.getElementById('request-type').value;
+  const message = document.getElementById('request-message').value.trim();
+  const stoneDocId = document.getElementById('request-stone-docid').value.trim() || null;
+  
+  let requestData = {
+    type: requestType,
+    message,
+    stoneDocId,  // For update and delete, this will be set
+    timestamp: new Date().toISOString()
+  };
+  
+  // Build details based on request type
+  if (requestType === "add") {
+    const kasse = document.getElementById('req-add-kasse').value.trim();
+    const steingruppe = document.getElementById('req-add-steingruppe').value.trim();
+    const id = document.getElementById('req-add-id').value.trim();
+    const sted = document.getElementById('req-add-sted').value.trim();
+    requestData.details = { kasse, steingruppe, id, sted };
+  } else if (requestType === "update") {
+    // Include both current and requested new values
+    const current = {
+      kasse: document.getElementById('current-kasse').value.trim(),
+      steingruppe: document.getElementById('current-steingruppe').value.trim(),
+      id: document.getElementById('current-id').value.trim(),
+      sted: document.getElementById('current-sted').value.trim()
+    };
+    const requested = {
+      kasse: document.getElementById('req-new-kasse').value.trim(),
+      steingruppe: document.getElementById('req-new-steingruppe').value.trim(),
+      id: document.getElementById('req-new-id').value.trim(),
+      sted: document.getElementById('req-new-sted').value.trim()
+    };
+    requestData.details = { current, requested };
+  } else if (requestType === "delete") {
+    // For deletion, the current details are enough
+    requestData.details = {
+      kasse: document.getElementById('current-kasse').value.trim(),
+      steingruppe: document.getElementById('current-steingruppe').value.trim(),
+      id: document.getElementById('current-id').value.trim(),
+      sted: document.getElementById('current-sted').value.trim()
+    };
+  }
+  
+  // Validation – ensure a type is selected and necessary fields are filled:
+  if (!requestType) {
+    alert("Velg en forespørselstype før du sender");
+    return;
+  }
+  
+  // Now, add the request document in Firestore (assuming Firestore is already initialized as db)
+  try {
+    await addDoc(collection(db, "requests"), requestData);
+    alert("Forespørsel sendt!");
+    document.getElementById("request-form").reset();
+    // Optionally hide fields after submission
+    toggleRequestFields();
+  } catch (error) {
+    console.error("Error submitting request:", error);
+    alert("Feil ved sending av forespørsel, prøv igjen!");
+  }
+}
+
+
 // ---------- UI HELPERS ----------
 
 // Show/close edit form
@@ -326,6 +454,10 @@ window.showStoneData = showStoneData;
 window.editStone = editStone;
 window.toggleView = toggleView;
 window.closeModal = closeModal;
+window.populateRequestForm = populateRequestForm;
+window.submitRequest = submitRequest;
+window.toggleRequestFields = toggleRequestFields;
+window.closeRequest = closeRequest;
 
 // Start listening in real time on page load
 window.addEventListener("load", subscribeToStones);
