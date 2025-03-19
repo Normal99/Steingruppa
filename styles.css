@@ -26,6 +26,10 @@ nav h2 {
     height: 60px;
     margin-left: 12%;
 }
+
+#shortcutT {
+    margin-left: 12%;
+}
  
 #logo:hover {
     opacity: 0.8;
