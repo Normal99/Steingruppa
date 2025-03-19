@@ -209,12 +209,17 @@ button {
   /* The search button */
 .search__submit-button {
     padding: 10px 15px;
-    font-size: 16px;
     border: 1px solid #ccc;
     border-left: none;
-    background-color: hsl(33, 53%, 78%);
     border-radius: 0 25px 25px 0;
     cursor: pointer;
+    width: 5%;
+    height: 100%;
+    display: flex;
+    background-image: url(bilder/search.png);
+    background-size: 55%, 50%;
+    background-position: center;
+    background-repeat: no-repeat; 
 }
 #søkeknapp {
     width: 10%;
