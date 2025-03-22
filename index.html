@@ -47,10 +47,23 @@
                 <button class="søkeboksknapp" id="toggle-view-button" onclick="toggleView()" ><img src="bilder/card.png" alt="bytt visning"></button>
             </div>
             <div id="filters" style="display: none;">
-                <input type="text" id="filter-kasse" placeholder="Filtrer med Kasse">
-                <input type="text" id="filter-steingruppe" placeholder="Filtrer med Steingruppe">
-                <input type="text" id="filter-id" placeholder="Filtrer med ID">
-                <input type="text" id="filter-sted" placeholder="Filtrer med Sted">
+              <input type="text" class="filter"  id="filter-kasse" placeholder="Filtrer med Kasse">
+              <input type="text" class="filter" id="filter-steingruppe" placeholder="Filtrer med Steingruppe">
+              <div class="dropdown">
+                <button class="dropbtn" onclick="steingruppeDropdown()">▼</button>
+                <div class="dropdown-content" id="steingruppeDropdown">
+                    <!-- Dropdown content will be added here -->
+                </div>
+              </div>
+              <input type="text" class="filter" id="filter-id" placeholder="Filtrer med ID">
+              <input type="text" class="filter" id="filter-sted" placeholder="Filtrer med Sted">
+              <div class="dropdown">
+                <button class="dropbtn" onclick="stedDropdown()">▼</button>
+                <div class="dropdown-content" id="stedDropdown">
+                    <!-- Dropdown content will be added here -->
+                </div>
+              </div>
+              <button id="clear-filters" onclick="clearFilters()">Tøm og røm</button>
             </div>
             <div id="ekstrating">
                 <div id="add-stone-form" style="display: none;">

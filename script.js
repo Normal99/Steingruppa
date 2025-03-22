@@ -146,6 +146,76 @@ function renderCards(stones) {
 
 // ---------- CRUD OPERATIONS ----------
 
+// Vise topresultater
+
+
+
+function steingruppeDropdown() {
+  const dropdown = document.getElementById("steingruppeDropdown");
+  dropdown.classList.toggle("show");
+  console.log("Dropdown toggled:", dropdown.classList.contains("show"));
+  finnElementer(2, "steingruppeDropdown","filter-steingruppe"); // Correct dropdown ID
+}
+
+function stedDropdown() {
+  const dropdown = document.getElementById("stedDropdown");
+  dropdown.classList.toggle("show");
+  console.log("Dropdown toggled:", dropdown.classList.contains("show"));
+  finnElementer(4, "stedDropdown", "filter-sted"); // Correct dropdown ID
+}
+
+function finnElementer(finn, hvilkenDropdown, filtersøkefelt) {
+  const tableRows = document.querySelectorAll("#data-table tbody tr");
+  console.log("Table rows found:", tableRows.length);
+
+  const antall = [];
+  tableRows.forEach(row => {
+      const cellValue = row.querySelector(`td:nth-child(${finn})`).textContent.trim();
+      console.log("Cell value:", cellValue);
+      const existing = antall.find(item => item.element.toLowerCase() === cellValue.toLowerCase());
+      if (existing) {
+          existing.antall += 1;
+      } else {
+          antall.push({ element: cellValue, antall: 1 });
+      }
+  });
+
+  antall.sort((a, b) => b.antall - a.antall);
+  const topResults = antall.slice(0, 10);
+  console.log("Top results:", topResults);
+
+  const dropdown = document.getElementById(hvilkenDropdown);
+  dropdown.innerHTML = ""; // Clear existing dropdown content
+  topResults.forEach(item => {
+      const link = document.createElement("a");
+      link.textContent = `${item.element} (${item.antall})`;
+      link.addEventListener("click", () => {
+          document.getElementById(filtersøkefelt).value = item.element;
+          renderView(applyFilters(allStones));
+          dropdown.classList.remove("show");
+      });
+      dropdown.appendChild(link);
+  });
+}
+
+document.addEventListener("click", (event) => {
+  const dropdowns = document.querySelectorAll(".dropdown-content");
+  dropdowns.forEach(dropdown => {
+      if (!dropdown.contains(event.target) && !event.target.matches(".dropbtn")) {
+
+          dropdown.classList.remove("show");
+      }
+  });
+});
+
+function clearFilters() {
+  document.getElementById('filter-kasse').value = "";
+  document.getElementById('filter-steingruppe').value = "";
+  document.getElementById('filter-id').value = "";
+  document.getElementById('filter-sted').value = "";
+  renderView(applyFilters(allStones));
+}
+
 const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
 
 const comparer = (idx, asc) => (a, b) => {
@@ -458,6 +528,9 @@ window.populateRequestForm = populateRequestForm;
 window.submitRequest = submitRequest;
 window.toggleRequestFields = toggleRequestFields;
 window.closeRequest = closeRequest;
+window.stedDropdown = stedDropdown;
+window.steingruppeDropdown = steingruppeDropdown;
+window.clearFilters = clearFilters;
 
 // Start listening in real time on page load
 window.addEventListener("load", subscribeToStones);
