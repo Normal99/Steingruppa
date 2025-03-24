@@ -42,15 +42,28 @@
                     <input type="text" name="q" class="search__input" id="søkefelt" aria-label="Søk på hele databaset" placeholder="Søk" autocomplete="off">
                     <button type="submit" class="search__submit-button" aria-label="Søk på hele nettstedet">
                     </button>
-                <button class="søkeboksknapp" id="leggtilKnapp" onclick="toggleAddStoneForm()"><img src="bilder/pluss.png" alt="Legg til stein."></button>
+                <button class="søkeboksknapp" id="leggtilKnapp" onclick="populateRequestForm({}, 'add')"><img src="bilder/pluss.png" alt="Legg til stein."></button>
                 <button class="søkeboksknapp" id="filterknapp" onclick="toggleFilter()"><img src="bilder/filter.png" alt="Filtrer steiner"></button>
                 <button class="søkeboksknapp" id="toggle-view-button" onclick="toggleView()" ><img src="bilder/card.png" alt="bytt visning"></button>
             </div>
             <div id="filters" style="display: none;">
-                <input type="text" id="filter-kasse" placeholder="Filtrer med Kasse">
-                <input type="text" id="filter-steingruppe" placeholder="Filtrer med Steingruppe">
-                <input type="text" id="filter-id" placeholder="Filtrer med ID">
-                <input type="text" id="filter-sted" placeholder="Filtrer med Sted">
+              <input type="text" class="filter"  id="filter-kasse" placeholder="Filtrer med Kasse">
+              <input type="text" class="filter" id="filter-steingruppe" placeholder="Filtrer med Steingruppe">
+              <div class="dropdown">
+                <button class="dropbtn" onclick="steingruppeDropdown()">▼</button>
+                <div class="dropdown-content" id="steingruppeDropdown">
+                    <!-- Dropdown content will be added here -->
+                </div>
+              </div>
+              <input type="text" class="filter" id="filter-id" placeholder="Filtrer med ID">
+              <input type="text" class="filter" id="filter-sted" placeholder="Filtrer med Sted">
+              <div class="dropdown">
+                <button class="dropbtn" onclick="stedDropdown()">▼</button>
+                <div class="dropdown-content" id="stedDropdown">
+                    <!-- Dropdown content will be added here -->
+                </div>
+              </div>
+              <button id="clear-filters" onclick="clearFilters()">Tøm og røm</button>
             </div>
             <div id="ekstrating">
                 <div id="add-stone-form" style="display: none;">
@@ -87,6 +100,98 @@
                     <button id="close-form-button" onclick="closeEditForm()">✕</button>
                 </div>
             </div>
+            <!-- Advanced Request System -->
+<div id="request-form-container" class="form-container" style="margin: 20px auto; max-width: 500px;">
+    <form id="request-form" class="stone-form">
+      
+      <!-- For "add" request, show only the new stone fields -->
+      <div id="add-request-fields" style="display:none;">
+        <button id="close-form-button" type="button" onclick="closeRequest()">✕</button>
+        <h2>Stein Forespørsel</h2>
+        <div>
+            <label for="request-message">Melding (valgfritt)</label>
+            <textarea id="request-message" class="form-input" placeholder="Eventuelle kommentarer..."></textarea>
+          </div> 
+          <!-- Hidden field to hold the stone docId, if applicable -->
+          <input type="hidden" id="request-stone-docid">
+        <select id="request-type" class="form-input" required onchange="toggleRequestFields()">
+            <option value="">-- Velg Forespørselstype --</option>
+            <option value="add">Legg til stein</option>
+            <option value="update">Oppdater stein</option>
+            <option value="delete">Slett stein</option>
+          </select>
+        <div>
+          <label>Ny Kasse</label>
+          <input type="text" id="req-add-kasse" class="form-input" placeholder="Kasse">
+        </div>
+        <div>
+          <label>Ny Steingruppe</label>
+          <input type="text" id="req-add-steingruppe" class="form-input" placeholder="Steingruppe">
+        </div>
+        <div>
+          <label>Nytt ID</label>
+          <input type="text" id="req-add-id" class="form-input" placeholder="ID">
+        </div>
+        <div>
+          <label>Nytt Sted</label>
+          <input type="text" id="req-add-sted" class="form-input" placeholder="Sted">
+        </div>
+      </div>
+      
+      <!-- For "update" and "delete" requests, show current stone details -->
+      <div id="current-request-fields" style="display:none;">
+        <button id="close-form-button" type="button" onclick="closeRequest()">✕</button>
+        <h3>GjeldendeVerdier</h3>
+        <div>
+          <label>Kasse:</label>
+          <input type="text" id="current-kasse" class="form-input" readonly>
+        </div>
+        <div>
+          <label>Steingruppe:</label>
+          <input type="text" id="current-steingruppe" class="form-input" readonly>
+        </div>
+        <div>
+          <label>ID:</label>
+          <input type="text" id="current-id" class="form-input" readonly>
+        </div>
+        <div>
+          <label>Sted:</label>
+          <input type="text" id="current-sted" class="form-input" readonly>
+        </div>
+      </div>
+      
+      <!-- For update requests: new values side-by-side with current -->
+      <div id="update-request-fields" style="display:none;">
+        <h3>Nye Verdier</h3>
+        <div class="field-group">
+          <div class="field-double">
+            <div class="field-half">
+              <label>Ny Kasse</label>
+              <input type="text" id="req-new-kasse" class="form-input" placeholder="Ny Kasse">
+            </div>
+            <div class="field-half">
+              <label>Ny Steingruppe</label>
+              <input type="text" id="req-new-steingruppe" class="form-input" placeholder="Ny Steingruppe">
+            </div>
+          </div>
+        </div>
+        <div class="field-group">
+          <div class="field-double">
+            <div class="field-half">
+              <label>Nytt ID</label>
+              <input type="text" id="req-new-id" class="form-input" placeholder="Nytt ID">
+            </div>
+            <div class="field-half">
+              <label>Nytt Sted</label>
+              <input type="text" id="req-new-sted" class="form-input" placeholder="Nytt Sted">
+            </div>
+          </div>
+        </div>
+        <button type="button" class="form-button" onclick="submitRequest()">Send Forespørsel</button>
+      </div>
+      <!-- For delete requests, the current fields are enough -->
+    </form>
+  </div>
             <div id="cards-container" style="display: none;">
                 <h1>test</h1>
             </div>
