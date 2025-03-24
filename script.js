@@ -422,6 +422,7 @@ window.editStone = editStone;
 window.toggleView = toggleView;
 window.closeModal = closeModal;
 window.steingruppeDropdown = steingruppeDropdown;
+window.steingruppeDropdown = stedDropdown;
 window.clearFilters = clearFilters;
 
 // Start listening in real time on page load
