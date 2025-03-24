@@ -13,12 +13,8 @@ body {
     overflow-x: hidden;
     font-family: "Nunito", serif;
     width: 100%;
-    background-image: url('galeri/img/bilde\ \(1\).jfif');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
 } 
-
+/* Dropdown Button */
 
 
 /* Dropdown button on hover & focus */
