@@ -12,6 +12,7 @@ body {
     flex-direction: column;
     overflow-x: hidden;
     font-family: "Nunito", serif;
+    width: 100%;
 } 
 /* Dropdown Button */
 
@@ -500,4 +501,20 @@ table, th, td {
 @keyframes fadein {
     from { opacity: 0; scale: 0.99;} 
     to   { opacity: 1; }
+}
+#popup {
+    display: none;
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    color: black;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    z-index: 9999;
+  }
+#popup img{
+    width: 100%;
+    height: auto;
 }

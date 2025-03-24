@@ -16,6 +16,31 @@ const firebaseConfig = {
   appId: "1:1067625469581:web:a3ccfc19a4b0035710f4c4"
 };
 
+
+//secret popup variables
+let pressedKeys = '';
+const secretCombo = 'stein'; // The combo you want to trigger on
+const popup = document.querySelector('#popup');
+
+window.addEventListener('keydown', (e) => {
+  pressedKeys += e.key.toLowerCase(); // record key, make sure it's lowercase for consistency
+
+  // Optional: keep it from getting too long
+  if (pressedKeys.length > secretCombo.length) {
+    pressedKeys = pressedKeys.slice(-secretCombo.length);
+  }
+
+  // Check if it matches
+  if (pressedKeys.includes(secretCombo)) {
+    popup.style.display = 'block';
+    setTimeout(() => {
+      popup.style.display = 'none';
+    }, 3000); // Hide popup after 3 seconds
+  }
+
+  console.log(pressedKeys); // Just for testing
+});
+
 // Initialize Firebase and Firestore
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
