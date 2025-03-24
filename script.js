@@ -146,23 +146,6 @@ function renderCards(stones) {
 
 // ---------- CRUD OPERATIONS ----------
 
-// Add a new stone
-async function addStone() {
-  try {
-    const kasse = document.getElementById('new-kasse').value.trim();
-    const steingruppe = document.getElementById('new-steingruppe').value.trim();
-    const id = document.getElementById('new-id').value.trim();
-    const sted = document.getElementById('new-sted').value.trim();
-
-    const newStone = { kasse, steingruppe, id, sted };
-    const docRef = await addDoc(collection(db, "steiner"), newStone);
-    alert("Stein lagt til med id: " + docRef.id);
-    // No need to manually re-fetch data—onSnapshot does real‑time updates.
-  } catch (error) {
-    console.error("Error adding stone:", error);
-  }
-}
-
 // Show stone details in a modal
 async function showStoneData(docId) {
   try {
@@ -199,42 +182,6 @@ function closeModal() {
   document.getElementById("modal").style.display = "none";
 }
 
-// Edit a stone
-async function editStone(docId) {
-  try {
-    const kasse = document.getElementById('edit-kasse').value.trim();
-    const steingruppe = document.getElementById('edit-steingruppe').value.trim();
-    const id = document.getElementById('edit-id').value.trim();
-    const sted = document.getElementById('edit-sted').value.trim();
-    const updatedStone = { kasse, steingruppe, id, sted };
-
-    await updateDoc(doc(db, "steiner", docId), updatedStone);
-    alert("Stein oppdatert!");
-    closeEditForm();
-  } catch (error) {
-    console.error("Error updating stone:", error);
-  }
-}
-
-// Delete a stone (also clears modal info if showing)
-async function deleteStone(docId) {
-  if (confirm("Er du sikker på at du vil slette denne steinen?")) {
-    try {
-      await deleteDoc(doc(db, "steiner", docId));
-      alert("Stein slettet!");
-
-      // If the deleted stone is currently shown, clear its display:
-      const modal = document.getElementById("modal");
-      if (modal.style.display === "block") {
-        closeModal();
-      }
-    } catch (error) {
-      console.error("Error deleting stone:", error);
-      alert("Feil ved sletting!");
-    }
-  }
-}
-
 // Toggle visible fields based on request type
 function toggleRequestFields() {
   const type = document.getElementById('request-type').value;
@@ -269,6 +216,16 @@ function populateRequestForm(stone, requestType) {
 console.log("Populating request for stone:", stone);
 // Set the request type dropdown
 document.getElementById('request-type').value = requestType;
+
+// change title based on request type
+const formTitle = document.getElementById('request-form-title');
+if (requestType === "add") {
+  formTitle.textContent = "Forespørsel for ny stein";
+} else if (requestType === "update") {
+  formTitle.textContent = "Forespørsel for å oppdatere stein";
+} else if (requestType === "delete") {
+  formTitle.textContent = "Forespørsel for å slette stein";
+}
 // Toggle request form fields based on type
 toggleRequestFields();
 
@@ -376,19 +333,6 @@ async function submitRequest() {
 
 // ---------- UI HELPERS ----------
 
-// Show/close edit form
-function showEditForm(stone) {
-  document.getElementById('edit-kasse').value = stone.kasse || "";
-  document.getElementById('edit-steingruppe').value = stone.steingruppe || "";
-  document.getElementById('edit-id').value = stone.id || "";
-  document.getElementById('edit-sted').value = stone.sted || "";
-  document.getElementById('edit-stone-button').setAttribute("data-docid", stone.docId);
-  document.getElementById('edit-stone-form').style.display = "block";
-}
-function closeEditForm() {
-  document.getElementById('edit-stone-form').style.display = "none";
-}
-
 // Toggle visibility of add-form & filters
 function toggleAddStoneForm() {
   const form = document.getElementById('add-stone-form');
@@ -407,10 +351,7 @@ function toggleView() {
 
 // ---------- EVENT LISTENERS ----------
 
-document.getElementById('edit-stone-button').addEventListener("click", () => {
-  const docId = document.getElementById('edit-stone-button').getAttribute("data-docid");
-  if(docId) { editStone(docId); }
-});
+
 
 // Re-render view on filter input changes
 document.getElementById('søkefelt').addEventListener('input', () => renderView(applyFilters(allStones)));
@@ -422,12 +363,7 @@ document.getElementById('filter-sted').addEventListener('input', () => renderVie
 // Expose functions globally if needed by inline HTML
 window.toggleAddStoneForm = toggleAddStoneForm;
 window.toggleFilter = toggleFilter;
-window.deleteStone = deleteStone;
-window.showEditForm = showEditForm;
-window.closeEditForm = closeEditForm;
-window.addStone = addStone;
 window.showStoneData = showStoneData;
-window.editStone = editStone;
 window.toggleView = toggleView;
 window.closeModal = closeModal;
 window.populateRequestForm = populateRequestForm;
