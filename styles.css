@@ -153,7 +153,11 @@ header {
     background-color: var(--main);
     border: 0;
     font-size: larger;
-}
+} 
+
+html {
+    scroll-behavior: smooth;
+  }
 
 #oppdrag, #sprak, #profilH, #kontakt {
     background-color: var(--main);;
@@ -178,7 +182,7 @@ header {
     #hoved {
         flex-direction: column !important;
         height: auto; /* Prevent overflow issues */
-        width: 100vw !important; /* Full width for the main container */
+        width: 100%; /* Full width for the main container */
         
     }
  
