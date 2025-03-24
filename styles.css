@@ -385,14 +385,6 @@ button {
     }
 }
 
-.field-double {
-    display: flex;
-    gap: 20px;
-  }
-  .field-half {
-    flex: 1;
-  }
-
 /* Modal styles */
 .modal {
     position: fixed;
