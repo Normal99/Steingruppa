@@ -387,6 +387,7 @@ function toggleAddStoneForm() {
 }
 function toggleFilter() {
   const form = document.getElementById('filters');
+  clearFilters();
   form.style.display = (form.style.display === "block") ? "none" : "block";
 }
 
