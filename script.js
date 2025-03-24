@@ -19,7 +19,7 @@ const firebaseConfig = {
 
 //secret popup variables
 let pressedKeys = '';
-const secretCombo = 'stein'; // The combo you want to trigger on
+const secretCombo = '--stein'; // The combo you want to trigger on
 const popup = document.querySelector('#popup');
 
 window.addEventListener('keydown', (e) => {
