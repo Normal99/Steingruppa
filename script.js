@@ -421,6 +421,8 @@ window.showStoneData = showStoneData;
 window.editStone = editStone;
 window.toggleView = toggleView;
 window.closeModal = closeModal;
+window.steingruppeDropdown = steingruppeDropdown;
+window.clearFilters = clearFilters;
 
 // Start listening in real time on page load
 window.addEventListener("load", subscribeToStones);
