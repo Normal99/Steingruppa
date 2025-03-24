@@ -153,7 +153,11 @@ header {
     background-color: var(--main);
     border: 0;
     font-size: larger;
-}
+} 
+
+html {
+    scroll-behavior: smooth;
+  }
 
 #oppdrag, #sprak, #profilH, #kontakt {
     background-color: var(--main);;
