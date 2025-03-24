@@ -122,8 +122,8 @@ function renderTable(stones) {
       <td>${item.id || ""}</td>
       <td>${item.sted || ""}</td>
       <td>
-        <button onclick="deleteStone('${item.docId}')">🗑️</button>
-        <button onclick='showEditForm(${JSON.stringify(item).replace(/'/g, "&#39;")})'>✏️</button>
+        <button onclick='populateRequestForm(${JSON.stringify(item).replace(/'/g, "&#39;")}, "delete")'>🗑️</button>
+        <button onclick='populateRequestForm(${JSON.stringify(item).replace(/'/g, "&#39;")}, "update")'>✏️</button>
       </td>
     `;
     row.addEventListener("click", (e) => {
@@ -155,8 +155,8 @@ function renderCards(stones) {
       <p><strong>ID:</strong> ${item.id || ""}</p>
       <p><strong>Sted:</strong> ${item.sted || ""}</p>
       <div>
-        <button onclick="deleteStone('${item.docId}')">🗑️</button>
-        <button onclick='showEditForm(${JSON.stringify(item).replace(/'/g, "&#39;")})'>✏️</button>
+        <button onclick='populateRequestForm(${JSON.stringify(item).replace(/'/g, "&#39;")}, "delete")'>🗑️</button>
+        <button onclick='populateRequestForm(${JSON.stringify(item).replace(/'/g, "&#39;")}, "update")'>✏️</button>
       </div>
     `;
     card.addEventListener("click", (e) => {
