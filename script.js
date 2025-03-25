@@ -504,6 +504,9 @@ window.toggleRequestFields = toggleRequestFields;
 window.closeRequest = closeRequest;
 window.showRequestModal = showRequestModal;
 window.closeRequestModal = closeRequestModal;
+window.steingruppeDropdown = steingruppeDropdown;
+window.stedDropdown = stedDropdown;
+window.clearFilters = clearFilters;
 
 // Start listening in real time on page load
 window.addEventListener("load", subscribeToStones);
