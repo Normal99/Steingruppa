@@ -356,6 +356,7 @@ button {
 #data-table{
     width: 100%;
     text-align: center;
+
 }
 #cards-container{
     overflow: auto;
@@ -378,6 +379,7 @@ button {
     cursor:pointer;
 }
 
+
 @media screen and (min-width: 768px) {
     #sok {
         margin-left: 12%;
@@ -386,6 +388,7 @@ button {
 }
 #stein-samling {
     display: block; /* Ensure the table container is visible */
+    padding:10px;
 }    
 /* Minimal Modal Styles */ /* midlertidig css fra gpt */
 .modal {
