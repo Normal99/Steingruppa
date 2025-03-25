@@ -100,6 +100,98 @@
                     <button id="close-form-button" onclick="closeEditForm()">✕</button>
                 </div>
             </div>
+            <!-- Add this section to your HTML -->
+            <div id="requests-container">
+              <h2>Incoming Requests</h2>
+              <table id="requests-table">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Details</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Requests will be populated here -->
+                </tbody>
+              </table>
+            </div>
+                        <!-- Advanced Request System -->
+            <div id="request-modal" class="modal" style="display:none;">
+              <div class="modal-content">
+                <span class="close" id="request-modal-close" onclick="closeRequestModal()">&times;</span>
+                <div id="request-modal-body">
+                  <form id="request-form" class="stone-form">
+                    <input type="hidden" id="request-stone-docid">
+                    <input type="hidden" id="request-docid">
+                    <h2 id="request-form-title">Stein Forespørsel</h2>
+                    <select id="request-type" class="form-input" required onchange="toggleRequestFields()">
+                      <option value="">-- Velg Forespørselstype --</option>
+                      <option value="add">Legg til stein</option>
+                      <option value="update">Oppdater stein</option>
+                      <option value="delete">Slett stein</option>
+                    </select>
+                    
+                    <!-- For "add" request: stacked inputs -->
+                    <div id="add-request-fields">
+                      <label>Ny Kasse</label>
+                      <input type="text" id="req-add-kasse" class="form-input" placeholder="Kasse">
+                      <label>Ny Steingruppe</label>
+                      <input type="text" id="req-add-steingruppe" class="form-input" placeholder="Steingruppe">
+                      <label>Nytt ID</label>
+                      <input type="text" id="req-add-id" class="form-input" placeholder="ID">
+                      <label>Nytt Sted</label>
+                      <input type="text" id="req-add-sted" class="form-input" placeholder="Sted">
+                    </div>
+                    
+                    <!-- Container for side-by-side layout -->
+                    <div id="side-by-side-container" class="side-by-side">
+                      <!-- For "update" and "delete" requests: show current values -->
+                      <div id="current-request-fields">
+                        <h3>Gjeldende Verdier</h3>
+                        <label>Kasse</label>
+                        <input type="text" id="current-kasse" class="form-input" readonly>
+                        <label>Steingruppe</label>
+                        <input type="text" id="current-steingruppe" class="form-input" readonly>
+                        <label>ID</label>
+                        <input type="text" id="current-id" class="form-input" readonly>
+                        <label>Sted</label>
+                        <input type="text" id="current-sted" class="form-input" readonly>
+                      </div>
+                      
+                      <!-- For update requests: new values side by side -->
+                      <div id="update-request-fields">
+                        <h3>Nye Verdier</h3>
+                        <div class="field-group">
+                          <div>
+                            <label>Ny Kasse</label>
+                            <input type="text" id="req-new-kasse" class="form-input" placeholder="Ny Kasse">
+                          </div>
+                          <div>
+                            <label>Ny Steingruppe</label>
+                            <input type="text" id="req-new-steingruppe" class="form-input" placeholder="Ny Steingruppe">
+                          </div>
+                        </div>
+                        <div class="field-group">
+                          <div>
+                            <label>Nytt ID</label>
+                            <input type="text" id="req-new-id" class="form-input" placeholder="Nytt ID">
+                          </div>
+                          <div>
+                            <label>Nytt Sted</label>
+                            <input type="text" id="req-new-sted" class="form-input" placeholder="Nytt Sted">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <label for="request-message">Melding (valgfritt)</label>
+                    <textarea id="request-message" class="form-input" placeholder="Eventuelle kommentarer..."></textarea>
+                    <button type="button" class="form-button" onclick="submitRequest()">Send Forespørsel</button>
+                  </form>
+                </div>
+              </div>
+            </div>
             <div id="cards-container" style="display: none;">
                 <h1>test</h1>
             </div>

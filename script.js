@@ -146,109 +146,6 @@ function renderCards(stones) {
 
 // ---------- CRUD OPERATIONS ----------
 
-// Vise topresultater
-
-
-
-function steingruppeDropdown() {
-  const dropdown = document.getElementById("steingruppeDropdown");
-  dropdown.classList.toggle("show");
-  console.log("Dropdown toggled:", dropdown.classList.contains("show"));
-  finnElementer(2, "steingruppeDropdown","filter-steingruppe"); // Correct dropdown ID
-}
-
-function stedDropdown() {
-  const dropdown = document.getElementById("stedDropdown");
-  dropdown.classList.toggle("show");
-  console.log("Dropdown toggled:", dropdown.classList.contains("show"));
-  finnElementer(4, "stedDropdown", "filter-sted"); // Correct dropdown ID
-}
-
-function finnElementer(finn, hvilkenDropdown, filtersøkefelt) {
-  const tableRows = document.querySelectorAll("#data-table tbody tr");
-  console.log("Table rows found:", tableRows.length);
-
-  const antall = [];
-  tableRows.forEach(row => {
-      const cellValue = row.querySelector(`td:nth-child(${finn})`).textContent.trim();
-      console.log("Cell value:", cellValue);
-      const existing = antall.find(item => item.element.toLowerCase() === cellValue.toLowerCase());
-      if (existing) {
-          existing.antall += 1;
-      } else {
-          antall.push({ element: cellValue, antall: 1 });
-      }
-  });
-
-  antall.sort((a, b) => b.antall - a.antall);
-  const topResults = antall.slice(0, 10);
-  console.log("Top results:", topResults);
-
-  const dropdown = document.getElementById(hvilkenDropdown);
-  dropdown.innerHTML = ""; // Clear existing dropdown content
-  topResults.forEach(item => {
-      const link = document.createElement("a");
-      link.textContent = `${item.element} (${item.antall})`;
-      link.addEventListener("click", () => {
-          document.getElementById(filtersøkefelt).value = item.element;
-          renderView(applyFilters(allStones));
-          dropdown.classList.remove("show");
-      });
-      dropdown.appendChild(link);
-  });
-}
-
-document.addEventListener("click", (event) => {
-  const dropdowns = document.querySelectorAll(".dropdown-content");
-  dropdowns.forEach(dropdown => {
-      if (!dropdown.contains(event.target) && !event.target.matches(".dropbtn")) {
-
-          dropdown.classList.remove("show");
-      }
-  });
-});
-
-function clearFilters() {
-  document.getElementById('filter-kasse').value = "";
-  document.getElementById('filter-steingruppe').value = "";
-  document.getElementById('filter-id').value = "";
-  document.getElementById('filter-sted').value = "";
-  renderView(applyFilters(allStones));
-}
-
-const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
-
-const comparer = (idx, asc) => (a, b) => {
-const v1 = getCellValue(asc ? a : b, idx);
-const v2 = getCellValue(asc ? b : a, idx);
-return (v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2))
-    ? v1 - v2                                                                           
-    : v1.toString().localeCompare(v2);
-};
-
-// Add sorting functionality
-document.querySelectorAll('th').forEach(th => {
-th.addEventListener('click', function () {
-    const table = th.closest('table');
-    const tbody = table.querySelector('tbody');
-    const index = Array.from(th.parentNode.children).indexOf(th);
-    const ascending = !this.asc;
-
-    // Remove arrows from all headers
-    document.querySelectorAll('th').forEach(header => {
-    header.textContent = header.textContent.replace(/[\u25B2\u25BC]/g, '');
-    });
-
-    // Append the appropriate arrow
-    th.textContent += ascending ? ' ▲' : ' ▼';
-    this.asc = ascending;
-
-    // Sort rows
-    Array.from(tbody.querySelectorAll('tr'))
-    .sort(comparer(index, ascending))
-    .forEach(row => tbody.appendChild(row));
-});
-});
 // Add a new stone
 async function addStone() {
   try {
@@ -293,12 +190,10 @@ async function showStoneData(docId) {
     } else {
       console.error("No such document!");
     }
-  }
-  catch (error) {
-    console.error("Error getting stone:", error); 
+  }  catch (error) {
+  console.error("Error fetching stone details:", error);
   }
 }
-
 // Close the modal
 function closeModal() {
   document.getElementById("modal").style.display = "none";
@@ -340,17 +235,124 @@ async function deleteStone(docId) {
   }
 }
 
+
+// Listen for incoming requests
+function subscribeToRequests() {
+  const requestsQuery = query(collection(db, "requests"), orderBy("timestamp"));
+  onSnapshot(requestsQuery, snapshot => {
+    snapshot.docChanges().forEach(change => {
+      if (change.type === "added") {
+        const request = { docId: change.doc.id, ...change.doc.data() };
+        displayRequest(request);
+      }
+    });
+  }, error => {
+    console.error("Error listening to requests:", error);
+  });
+}
+
+function displayRequest(request) {
+  const requestsTableBody = document.querySelector('#requests-table tbody');
+  const row = document.createElement('tr');
+  row.innerHTML = `
+    <td>${request.type}</td>
+    <td>${JSON.stringify(request.details)}</td>
+    <td>
+      <button onclick="acceptRequest('${request.docId}')">Accept</button>
+      <button onclick="rejectRequest('${request.docId}')">Reject</button>
+      ${request.type === 'update' ? `<button onclick="editRequest('${request.docId}')">Edit</button>` : ''}
+    </td>
+  `;
+  requestsTableBody.appendChild(row);
+}
+
+async function acceptRequest(docId) {
+  try {
+    const requestRef = doc(db, "requests", docId);
+    const requestSnap = await getDoc(requestRef);
+    if (requestSnap.exists()) {
+      const request = requestSnap.data();
+      await processRequest(request);
+      await deleteDoc(requestRef);
+      alert("Request accepted and processed.");
+    } else {
+      console.error("No such request!");
+    }
+  } catch (error) {
+    console.error("Error accepting request:", error);
+  }
+}
+
+async function rejectRequest(docId) {
+  try {
+    await deleteDoc(doc(db, "requests", docId));
+    alert("Request rejected.");
+  } catch (error) {
+    console.error("Error rejecting request:", error);
+  }
+}
+
+function editRequest(docId) {
+  // Fetch the request details and populate the form for editing
+  const requestRef = doc(db, "requests", docId);
+  getDoc(requestRef).then(requestSnap => {
+    if (requestSnap.exists()) {
+      const request = requestSnap.data();
+      populateRequestForm(request.details.current, 'update');
+      // Populate the new values in the form
+      document.getElementById('req-new-kasse').value = request.details.requested.kasse || "";
+      document.getElementById('req-new-steingruppe').value = request.details.requested.steingruppe || "";
+      document.getElementById('req-new-id').value = request.details.requested.id || "";
+      document.getElementById('req-new-sted').value = request.details.requested.sted || "";
+      // Show the request modal
+      showRequestModal();
+      // Add a hidden input to store the request docId
+      document.getElementById('request-docid').value = docId;
+    } else {
+      console.error("No such request!");
+    }
+  }).catch(error => {
+    console.error("Error fetching request details:", error);
+  });
+}
+
+async function processRequest(request) {
+  const { type, details, stoneDocId } = request;
+
+  try {
+    if (type === "add") {
+      await addDoc(collection(db, "steiner"), details);
+      console.log("Stone added:", details);
+    } else if (type === "update") {
+      const stoneRef = doc(db, "steiner", stoneDocId);
+      await updateDoc(stoneRef, details.requested);
+      console.log("Stone updated:", details);
+    } else if (type === "delete") {
+      const stoneRef = doc(db, "steiner", stoneDocId);
+      await deleteDoc(stoneRef);
+      console.log("Stone deleted:", details);
+    }
+  } catch (error) {
+    console.error("Error processing request:", error);
+  }
+}
+
+function showRequestModal() {
+  document.getElementById('request-modal').style.display = 'block';
+}
+
+function closeRequestModal() {
+  document.getElementById('request-modal').style.display = 'none';
+}
+
 // ---------- UI HELPERS ----------
 
 // Show/close edit form
 function showEditForm(stone) {
-  document.getElementById('edit-kasse').value = stone.kasse || "";
-  document.getElementById('edit-steingruppe').value = stone.steingruppe || "";
-  document.getElementById('edit-id').value = stone.id || "";
-  document.getElementById('edit-sted').value = stone.sted || "";
-  document.getElementById('edit-stone-button').setAttribute("data-docid", stone.docId);
-  document.getElementById('edit-stone-form').style.display = "block";
+  populateRequestForm(stone, 'update');
+  showRequestModal();
 }
+
 function closeEditForm() {
   document.getElementById('edit-stone-form').style.display = "none";
 }
@@ -360,6 +362,7 @@ function toggleAddStoneForm() {
   const form = document.getElementById('add-stone-form');
   form.style.display = (form.style.display === "block") ? "none" : "block";
 }
+
 function toggleFilter() {
   const form = document.getElementById('filters');
   form.style.display = (form.style.display === "block") ? "none" : "block";
@@ -396,6 +399,13 @@ window.showStoneData = showStoneData;
 window.editStone = editStone;
 window.toggleView = toggleView;
 window.closeModal = closeModal;
+window.acceptRequest = acceptRequest;
+window.rejectRequest = rejectRequest;
+window.editRequest = editRequest;
+window.addEventListener("load", () => {
+  subscribeToStones();
+  subscribeToRequests();
+});
 
 // Start listening in real time on page load
 window.addEventListener("load", subscribeToStones);
