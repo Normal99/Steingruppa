@@ -46,7 +46,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // Global settings & data
-let viewMode = "table"; // "table" or "card"
+let viewMode = "card"; // "table" or "card"
 let allStones = [];      // will hold the raw stone data
 let unsubscribe;         // holds the onSnapshot unsubscribe function
 
