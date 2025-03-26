@@ -98,7 +98,7 @@ function renderTable(stones) {
       <td>${item.sted || ""}</td>
       <td>
         <button onclick="deleteStone('${item.docId}')">🗑️</button>
-        <button onclick='showEditForm(${JSON.stringify(item).replace(/'/g, "&#39;")})'>✏️</button>
+        <button onclick='handleEditStoneClick(${JSON.stringify(item).replace(/'/g, "&#39;")})'>✏️</button>
       </td>
     `;
     row.addEventListener("click", (e) => {
@@ -215,6 +215,71 @@ async function editStone(docId) {
     console.error("Error updating stone:", error);
   }
 }
+function showStoneModal(mode, stone = null) {
+  const modal = document.getElementById('stone-modal');
+  const title = document.getElementById('stone-form-title');
+  const submitButton = document.getElementById('stone-submit-button');
+  
+  // Clear form
+  document.getElementById('stone-form').reset();
+  
+  if (mode === 'add') {
+    title.textContent = 'Legg til ny stein';
+    submitButton.textContent = 'Legg til';
+    document.getElementById('stone-docid').value = '';
+  } else if (mode === 'edit' && stone) {
+    title.textContent = 'Rediger stein';
+    submitButton.textContent = 'Oppdater';
+    
+    // Populate form with stone data
+    document.getElementById('stone-kasse').value = stone.kasse || '';
+    document.getElementById('stone-steingruppe').value = stone.steingruppe || '';
+    document.getElementById('stone-id').value = stone.id || '';
+    document.getElementById('stone-sted').value = stone.sted || '';
+    document.getElementById('stone-docid').value = stone.docId;
+  }
+  
+  modal.style.display = 'block';
+}
+
+function closeStoneModal() {
+  document.getElementById('stone-modal').style.display = 'none';
+}
+
+async function submitStoneForm() {
+  const docId = document.getElementById('stone-docid').value;
+  const stoneData = {
+    kasse: document.getElementById('stone-kasse').value.trim(),
+    steingruppe: document.getElementById('stone-steingruppe').value.trim(),
+    id: document.getElementById('stone-id').value.trim(),
+    sted: document.getElementById('stone-sted').value.trim()
+  };
+
+  try {
+    if (docId) {
+      // Update existing stone
+      await updateDoc(doc(db, "steiner", docId), stoneData);
+      alert("Stein oppdatert!");
+    } else {
+      // Add new stone
+      await addDoc(collection(db, "steiner"), stoneData);
+      alert("Ny stein lagt til!");
+    }
+    closeStoneModal();
+  } catch (error) {
+    console.error("Error saving stone:", error);
+    alert("Det oppstod en feil!");
+  }
+}
+
+// Update the click handlers
+function handleAddStoneClick() {
+  showStoneModal('add');
+}
+
+function handleEditStoneClick(stone) {
+  showStoneModal('edit', stone);
+}
 
 // Delete a stone (also clears modal info if showing)
 async function deleteStone(docId) {
@@ -236,6 +301,7 @@ async function deleteStone(docId) {
 }
 
 
+
 // Listen for incoming requests
 function subscribeToRequests() {
   const requestsQuery = query(collection(db, "requests"), orderBy("timestamp"));
@@ -244,28 +310,76 @@ function subscribeToRequests() {
       if (change.type === "added") {
         const request = { docId: change.doc.id, ...change.doc.data() };
         displayRequest(request);
+      } else if (change.type === "modified") {
+        const request = { docId: change.doc.id, ...change.doc.data() };
+        updateRequestInTable(request);
+      } else if (change.type === "removed") {
+        removeRequestFromTable(change.doc.id);
       }
     });
   }, error => {
-    console.error("Error listening to requests:", error);
+    console.error("Feil ved lytting til forespørsler:", error);
   });
 }
 
 function displayRequest(request) {
   const requestsTableBody = document.querySelector('#requests-table tbody');
   const row = document.createElement('tr');
+  row.setAttribute('data-docid', request.docId);
   row.innerHTML = `
     <td>${request.type}</td>
-    <td>${JSON.stringify(request.details)}</td>
+    <td>${parseRequestDetails(request.details)}</td>
     <td>
-      <button onclick="acceptRequest('${request.docId}')">Accept</button>
-      <button onclick="rejectRequest('${request.docId}')">Reject</button>
-      ${request.type === 'update' ? `<button onclick="editRequest('${request.docId}')">Edit</button>` : ''}
+      <button onclick="acceptRequest('${request.docId}')">Godta</button>
+      <button onclick="rejectRequest('${request.docId}')">Avslå</button>
+      ${request.type === 'update' ? `<button onclick="editRequest('${request.docId}')">Rediger</button>` : ''}
     </td>
   `;
   requestsTableBody.appendChild(row);
 }
 
+function parseRequestDetails(details) {
+  // Early return if details is undefined
+  if (!details) {
+    return "<div class='request-details'>Ingen detaljer tilgjengelig</div>";
+  }
+
+  const formatStoneDetails = (stone) => {
+    if (!stone) return "Ingen data";
+    
+    const fields = [
+      { label: "Kasse", value: stone.kasse },
+      { label: "Steingruppe", value: stone.steingruppe },
+      { label: "ID", value: stone.id },
+      { label: "Sted", value: stone.sted }
+    ];
+
+    return fields
+      .filter(field => field.value)
+      .map(field => `<div>${field.label}: ${field.value}</div>`)
+      .join("");
+  };
+
+  // If details has direct properties, format them
+  if (details.kasse || details.steingruppe || details.id || details.sted) {
+    return `
+      <div class="request-details">
+        <strong>Detaljer</strong>
+        ${formatStoneDetails(details)}
+      </div>
+    `;
+  }
+  
+  // Otherwise, handle as a complex request with current/requested values
+  return `
+    <div class="request-details">
+      <strong>Gjeldende verdier</strong>
+      ${formatStoneDetails(details.current)}
+      <strong>Ønskede endringer</strong>
+      ${formatStoneDetails(details.requested)}
+    </div>
+  `;
+}
 async function acceptRequest(docId) {
   try {
     const requestRef = doc(db, "requests", docId);
@@ -274,21 +388,23 @@ async function acceptRequest(docId) {
       const request = requestSnap.data();
       await processRequest(request);
       await deleteDoc(requestRef);
-      alert("Request accepted and processed.");
+      alert("Forespørsel godkjent og behandlet.");
+      removeRequestFromTable(docId);
     } else {
-      console.error("No such request!");
+      console.error("Ingen slik forespørsel!");
     }
   } catch (error) {
-    console.error("Error accepting request:", error);
+    console.error("Feil ved godkjenning av forespørsel:", error);
   }
 }
 
 async function rejectRequest(docId) {
   try {
     await deleteDoc(doc(db, "requests", docId));
-    alert("Request rejected.");
+    alert("Forespørsel avslått.");
+    removeRequestFromTable(docId);
   } catch (error) {
-    console.error("Error rejecting request:", error);
+    console.error("Feil ved avslag av forespørsel:", error);
   }
 }
 
@@ -309,10 +425,10 @@ function editRequest(docId) {
       // Add a hidden input to store the request docId
       document.getElementById('request-docid').value = docId;
     } else {
-      console.error("No such request!");
+      console.error("Ingen slik forespørsel!");
     }
   }).catch(error => {
-    console.error("Error fetching request details:", error);
+    console.error("Feil ved henting av forespørselsdetaljer:", error);
   });
 }
 
@@ -322,18 +438,18 @@ async function processRequest(request) {
   try {
     if (type === "add") {
       await addDoc(collection(db, "steiner"), details);
-      console.log("Stone added:", details);
+      console.log("Stein lagt til:", details);
     } else if (type === "update") {
       const stoneRef = doc(db, "steiner", stoneDocId);
       await updateDoc(stoneRef, details.requested);
-      console.log("Stone updated:", details);
+      console.log("Stein oppdatert:", details);
     } else if (type === "delete") {
       const stoneRef = doc(db, "steiner", stoneDocId);
       await deleteDoc(stoneRef);
-      console.log("Stone deleted:", details);
+      console.log("Stein slettet:", details);
     }
   } catch (error) {
-    console.error("Error processing request:", error);
+    console.error("Feil ved behandling av forespørsel:", error);
   }
 }
 
@@ -345,23 +461,86 @@ function closeRequestModal() {
   document.getElementById('request-modal').style.display = 'none';
 }
 
-// ---------- UI HELPERS ----------
+function toggleRequests() {
+  const content = document.getElementById('requests-content');
+  const icon = document.getElementById('toggle-icon');
+  const container = document.getElementById('requests-container');
+  
+  if (content.classList.contains('show')) {
+      content.classList.remove('show');
+      icon.textContent = '▶ Innkommende forespørsler';
+      container.style.maxHeight = '50px'; // Collapsed height
+  } else {
+      content.classList.add('show');
+      icon.textContent = '▼ Innkommende forespørsler';
+      container.style.maxHeight = '300px'; // Expanded height
+  }
+}
 
-// Show/close edit form
-function showEditForm(stone) {
-  populateRequestForm(stone, 'update');
+function populateRequestForm(stone, requestType) {
+  console.log("Fyller ut forespørsel for stein:", stone);
+  
+  // Update the form title based on the request type
+  const formTitle = document.getElementById('request-form-title');
+  formTitle.textContent = "Rediger forespørsel";
+
+  // Toggle request form fields based on type
+  toggleRequestFields();
+
+  // Populate the current (readonly) fields with this stone's details
+  document.getElementById('current-kasse').value = stone.kasse || "";
+  document.getElementById('current-steingruppe').value = stone.steingruppe || "";
+  document.getElementById('current-id').value = stone.id || "";
+  document.getElementById('current-sted').value = stone.sted || "";
+  // Store the Firestore docId in a hidden field so the request is tied to this stone
+  document.getElementById('request-stone-docid').value = stone.docId;
+  
+  // For update requests, pre-fill the new field values (side-by-side comparison)
+  if (requestType === "update") {
+    document.getElementById('req-new-kasse').value = stone.kasse || "";
+    document.getElementById('req-new-steingruppe').value = stone.steingruppe || "";
+    document.getElementById('req-new-id').value = stone.id || "";
+    document.getElementById('req-new-sted').value = stone.sted || "";
+  }
+  // Show the request modal
   showRequestModal();
 }
 
-function closeEditForm() {
-  document.getElementById('edit-stone-form').style.display = "none";
+function toggleRequestFields() {
+  // Hide all sections first
+  document.getElementById('current-request-fields').style.display = "none";
+  document.getElementById('update-request-fields').style.display = "none";
+  document.getElementById('side-by-side-container').style.display = "none";
+  
+  document.getElementById('current-request-fields').style.display = "block";
+  document.getElementById('update-request-fields').style.display = "block";
+  document.getElementById('side-by-side-container').style.display = "flex";
 }
 
-// Toggle visibility of add-form & filters
-function toggleAddStoneForm() {
-  const form = document.getElementById('add-stone-form');
-  form.style.display = (form.style.display === "block") ? "none" : "block";
+async function submitRequest() {
+  const docId = document.getElementById('request-docid').value;
+  const stoneDocId = document.getElementById('request-stone-docid').value;
+  const kasse = document.getElementById('req-new-kasse').value.trim();
+  const steingruppe = document.getElementById('req-new-steingruppe').value.trim();
+  const id = document.getElementById('req-new-id').value.trim();
+  const sted = document.getElementById('req-new-sted').value.trim();
+  const updatedDetails = { kasse, steingruppe, id, sted };
+
+  try {
+    const requestRef = doc(db, "requests", docId);
+    await updateDoc(requestRef, {
+      "details.requested": updatedDetails,
+      "details.current": { kasse, steingruppe, id, sted },
+      stoneDocId
+    });
+    alert("Forespørsel oppdatert!");
+    closeRequestModal();
+  } catch (error) {
+    console.error("Feil ved oppdatering av forespørsel:", error);
+  }
 }
+
+// ---------- UI HELPERS ----------
 
 function toggleFilter() {
   const form = document.getElementById('filters');
@@ -376,11 +555,6 @@ function toggleView() {
 
 // ---------- EVENT LISTENERS ----------
 
-document.getElementById('edit-stone-button').addEventListener("click", () => {
-  const docId = document.getElementById('edit-stone-button').getAttribute("data-docid");
-  if(docId) { editStone(docId); }
-});
-
 // Re-render view on filter input changes
 document.getElementById('søkefelt').addEventListener('input', () => renderView(applyFilters(allStones)));
 document.getElementById('filter-kasse').addEventListener('input', () => renderView(applyFilters(allStones)));
@@ -389,23 +563,28 @@ document.getElementById('filter-id').addEventListener('input', () => renderView(
 document.getElementById('filter-sted').addEventListener('input', () => renderView(applyFilters(allStones)));
 
 // Expose functions globally if needed by inline HTML
-window.toggleAddStoneForm = toggleAddStoneForm;
 window.toggleFilter = toggleFilter;
-window.deleteStone = deleteStone;
-window.showEditForm = showEditForm;
-window.closeEditForm = closeEditForm;
-window.addStone = addStone;
 window.showStoneData = showStoneData;
-window.editStone = editStone;
 window.toggleView = toggleView;
 window.closeModal = closeModal;
+window.populateRequestForm = populateRequestForm;
 window.acceptRequest = acceptRequest;
 window.rejectRequest = rejectRequest;
 window.editRequest = editRequest;
+window.showRequestModal = showRequestModal;
+window.closeRequestModal = closeRequestModal;
+window.submitRequest = submitRequest;
+window.toggleRequests = toggleRequests;
+window.editStone = editStone;
+window.deleteStone = deleteStone;
+window.showStoneModal = showStoneModal;
+window.closeStoneModal = closeStoneModal;
+window.submitStoneForm = submitStoneForm;
+window.handleAddStoneClick = handleAddStoneClick;
+window.handleEditStoneClick = handleEditStoneClick;
+
+// Start listening in real time on page load
 window.addEventListener("load", () => {
   subscribeToStones();
   subscribeToRequests();
 });
-
-// Start listening in real time on page load
-window.addEventListener("load", subscribeToStones);

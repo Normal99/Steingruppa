@@ -12,6 +12,7 @@ body {
     flex-direction: column;
     overflow-x: hidden;
     font-family: "Nunito", serif;
+    width: 100%;
 } 
 /* Dropdown Button */
 
@@ -383,38 +384,131 @@ button {
         margin-right: 12%;
     }
 }
-
-/* Modal styles */
+#stein-samling {
+    display: block; /* Ensure the table container is visible */
+}    
+/* Minimal Modal Styles */ /* midlertidig css fra gpt */
 .modal {
     position: fixed;
-    z-index: 100;
-    left: 0;
     top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.5);
+    display: none;
+    z-index: 100;
   }
   
   .modal-content {
-    background-color: #fefefe;
+    background: #fff;
+    max-width: 500px;
     margin: 10% auto;
     padding: 20px;
-    width: 80%;
-    max-width: 1000px;
-    border-radius: 8px;
+    border-radius: 6px;
     position: relative;
+    font-family: "Nunito", sans-serif;
   }
   
   .modal-content .close {
     position: absolute;
-    right: 16px;
-    top: 8px;
-    font-size: 28px;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    color: #000;
     cursor: pointer;
-  } 
-#stein-samling {
-    display: block; /* Ensure the table container is visible */
+  }
+  
+  /* Request Form Base Styles */
+  #request-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  
+  #request-form label {
+    color: #000;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+  
+  .form-input {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  textarea.form-input {
+    resize: vertical;
+    min-height: 80px;
+  }
+  
+  /* Side-by-side layout for current and new values */
+  .side-by-side {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .side-by-side > div {
+    flex: 1;
+  }
+  
+  /* Button Style */
+  .form-button {
+    height: 40px;
+    border-radius: 15px;
+    margin-top: 2%;
+    background-color: #8e8d8183;
+    cursor: pointer;
+  }
+  #request-type {
+    display: none;
+  }
+  
+  /* Hide Optional Sections Initially */
+  #add-request-fields,
+  #current-request-fields,
+  #update-request-fields {
+    display: none;
+  }
+  #requests-container {
+    margin-top: 20px;
+    overflow: hidden; /* Hide overflow by default */
+    position: relative;
+}
+
+#requests-content {
+    display: none;
+    background-color: white;
+    max-height: 300px;
+    overflow: auto;
+}
+#requests-header {
+    position: relative;
+}
+
+#requests-content.show {
+    display: block;
+}
+  #requests-table {
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+#requests-table th, 
+#requests-table td {
+    padding: 5px;
+}
+
+#requests-table button {
+    border-radius: 15px;
+    cursor: pointer;
+}
+#stein-samling{
     overflow: auto; /* Enables scrolling when content overflows */
 }
 
@@ -424,7 +518,6 @@ nav {
     justify-content: space-between;
     margin-top: 20px;
 }
- 
 .underline {
     margin-left: 12%;
     margin-right: 12%;
@@ -492,4 +585,32 @@ table, th, td {
 @keyframes fadein {
     from { opacity: 0; scale: 0.99;} 
     to   { opacity: 1; }
+}
+#popup {
+    display: none;
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    color: black;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    z-index: 9999;
+  }
+#popup img{
+    width: 100%;
+    height: auto;
+}
+#secret {
+    display: none;
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    color: black;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    z-index: 9999;
 }
