@@ -474,24 +474,31 @@ button {
   #update-request-fields {
     display: none;
   }
-  #requests-container {
+  #toggle-icon {
+    margin: 0;
+    font-size: 1.1em;
+}
+
+#requests-container {
     margin-top: 20px;
-    overflow: hidden; /* Hide overflow by default */
-    position: relative;
+    overflow: auto; /* Hide overflow by default */
 }
 
 #requests-content {
     display: none;
     background-color: white;
-    max-height: 300px;
-    overflow: auto;
-}
-#requests-header {
-    position: relative;
 }
 
 #requests-content.show {
     display: block;
+}
+#requests-header {
+    position: sticky;
+    top: 0;
+    padding: 10px;
+    z-index: 2;
+    background-color: white;
+    cursor: pointer;
 }
   #requests-table {
     width: 100%;
@@ -503,11 +510,42 @@ button {
 #requests-table td {
     padding: 5px;
 }
+#requests-table th {
+    background-color: #f9f9f9;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
 
 #requests-table button {
     border-radius: 15px;
     cursor: pointer;
 }
+.request-details {
+    padding: 10px;
+  }
+  
+  .update-request .comparison-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .update-request .current,
+  .update-request .requested {
+    flex: 1;
+  }
+  
+  .stone-details .label {
+    font-weight: bold;
+    margin-right: 5px;
+  }
+  .message {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-left: 4px solid var(--main);
+  }
 #stein-samling{
     overflow: auto; /* Enables scrolling when content overflows */
 }

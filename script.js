@@ -328,7 +328,7 @@ function displayRequest(request) {
   row.setAttribute('data-docid', request.docId);
   row.innerHTML = `
     <td>${request.type}</td>
-    <td>${parseRequestDetails(request.details)}</td>
+    <td>${parseRequestDetails(request.details, request.message)}</td>
     <td>
       <button onclick="acceptRequest('${request.docId}')">Godta</button>
       <button onclick="rejectRequest('${request.docId}')">Avslå</button>
@@ -338,7 +338,7 @@ function displayRequest(request) {
   requestsTableBody.appendChild(row);
 }
 
-function parseRequestDetails(details) {
+function parseRequestDetails(details, message) {
   // Early return if details is undefined
   if (!details) {
     return "<div class='request-details'>Ingen detaljer tilgjengelig</div>";
@@ -348,35 +348,45 @@ function parseRequestDetails(details) {
     if (!stone) return "Ingen data";
     
     const fields = [
-      { label: "Kasse", value: stone.kasse },
-      { label: "Steingruppe", value: stone.steingruppe },
-      { label: "ID", value: stone.id },
-      { label: "Sted", value: stone.sted }
+      { label: "Kasse", value: stone.kasse || "-" },
+      { label: "Steingruppe", value: stone.steingruppe || "-" },
+      { label: "ID", value: stone.id || "-" },
+      { label: "Sted", value: stone.sted || "-" }
     ];
 
-    return fields
-      .filter(field => field.value)
-      .map(field => `<div>${field.label}: ${field.value}</div>`)
-      .join("");
+    return `
+      <div class="stone-details">
+        ${fields.map(field => `<div class="field"><span class="label">${field.label}:</span> ${field.value}</div>`).join("")}
+      </div>
+    `;
   };
 
-  // If details has direct properties, format them
-  if (details.kasse || details.steingruppe || details.id || details.sted) {
+  // Handle update requests with side-by-side comparison
+  if (details.current && details.requested) {
     return `
-      <div class="request-details">
-        <strong>Detaljer</strong>
-        ${formatStoneDetails(details)}
+      <div class="request-details update-request">
+        <div class="comparison-container">
+          <div class="current">
+            <strong>Gjeldende verdier:</strong>
+            ${formatStoneDetails(details.current)}
+          </div>
+          <div class="arrow">➔</div>
+          <div class="requested">
+            <strong>Ønskede endringer:</strong>
+            ${formatStoneDetails(details.requested)}
+          </div>
+        </div>
+        ${message ? `<div class="message"><strong>Melding:</strong> ${message}</div>` : ''}
       </div>
     `;
   }
-  
-  // Otherwise, handle as a complex request with current/requested values
+
+  // Handle simple requests (add/delete)
   return `
     <div class="request-details">
-      <strong>Gjeldende verdier</strong>
-      ${formatStoneDetails(details.current)}
-      <strong>Ønskede endringer</strong>
-      ${formatStoneDetails(details.requested)}
+      <strong>Detaljer</strong>
+      ${formatStoneDetails(details)}
+      ${message ? `<div class="message"><strong>Melding:</strong> ${message}</div>` : ''}
     </div>
   `;
 }
@@ -405,6 +415,12 @@ async function rejectRequest(docId) {
     removeRequestFromTable(docId);
   } catch (error) {
     console.error("Feil ved avslag av forespørsel:", error);
+  }
+}
+function removeRequestFromTable(docId) {
+  const row = document.querySelector(`tr[data-docid="${docId}"]`);
+  if (row) {
+    row.remove();
   }
 }
 
