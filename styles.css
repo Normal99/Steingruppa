@@ -176,9 +176,6 @@ html {
  
 /* Mobile Layout Adjustments */
 @media screen and (max-width: 768px) {
-    header {
-        display: none !important; /* Hide the header on small screens */
-    }
    
     #hoved {
         flex-direction: column !important;
