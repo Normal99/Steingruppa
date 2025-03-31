@@ -476,8 +476,15 @@ function toggleFilter() {
 }
 
 // Toggle between table and card view
+// Toggle between table and card view
 function toggleView() {
   viewMode = (viewMode === "table") ? "card" : "table";
+  const toggleButton = document.querySelector('.søkeboksknapp[onclick="toggleView()"]');
+  
+  // Update button with appropriate icon
+  toggleButton.innerHTML = `<img src="bilder/${viewMode === 'table' ? 'card' : 'list'}.png" 
+                           alt="${viewMode === 'table' ? 'List View' : 'Card View'}">`;
+  
   renderView(applyFilters(allStones));
 }
 
