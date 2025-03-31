@@ -571,9 +571,8 @@ function toggleView() {
   const toggleButton = document.querySelector('.søkeboksknapp[onclick="toggleView()"]');
   
   // Update button with appropriate icon
-  toggleButton.innerHTML = `<img src="bilder/${viewMode === 'table' ? 'list' : 'card'}.png" 
-                           alt="${viewMode === 'table' ? 'List View' : 'Card View'}" 
-                           style="width: 20px; height: 20px;">`;
+  toggleButton.innerHTML = `<img src="bilder/${viewMode === 'table' ? 'card' : 'list'}.png" 
+                           alt="${viewMode === 'table' ? 'List View' : 'Card View'}">`;
   
   renderView(applyFilters(allStones));
 }
