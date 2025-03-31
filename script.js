@@ -351,6 +351,9 @@ function closeRequest() {
   document.getElementById('request-form').reset(); // Reset entire form
   closeRequestModal(); // Close the modal
 }
+function closeRequestModal() {
+  document.getElementById("request-modal").style.display = "none";
+}
 
 // Update populateRequestForm to open the modal (design stays consistent)
 function populateRequestForm(stone, requestType) {
