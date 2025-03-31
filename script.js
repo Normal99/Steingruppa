@@ -302,23 +302,40 @@ async function deleteStone(docId) {
 
 
 
-// Listen for incoming requests
+// Listen for incoming requests and show empty message
 function subscribeToRequests() {
   const requestsQuery = query(collection(db, "requests"), orderBy("timestamp"));
+  const requestsTableBody = document.querySelector('#requests-table tbody');
+  
   onSnapshot(requestsQuery, snapshot => {
-    snapshot.docChanges().forEach(change => {
-      if (change.type === "added") {
-        const request = { docId: change.doc.id, ...change.doc.data() };
-        displayRequest(request);
-      } else if (change.type === "modified") {
-        const request = { docId: change.doc.id, ...change.doc.data() };
-        updateRequestInTable(request);
-      } else if (change.type === "removed") {
-        removeRequestFromTable(change.doc.id);
+      // Clear existing rows
+      requestsTableBody.innerHTML = '';
+      
+      if (snapshot.empty) {
+          // Show empty state message
+          requestsTableBody.innerHTML = `
+              <tr>
+                  <td colspan="3">
+                      Ingen innkommende forespørsler
+                  </td>
+              </tr>
+          `;
+      } else {
+          // Display requests as normal
+          snapshot.docChanges().forEach(change => {
+              if (change.type === "added") {
+                  const request = { docId: change.doc.id, ...change.doc.data() };
+                  displayRequest(request);
+              } else if (change.type === "modified") {
+                  const request = { docId: change.doc.id, ...change.doc.data() };
+                  updateRequestInTable(request);
+              } else if (change.type === "removed") {
+                  removeRequestFromTable(change.doc.id);
+              }
+          });
       }
-    });
   }, error => {
-    console.error("Feil ved lytting til forespørsler:", error);
+      console.error("Feil ved lytting til forespørsler:", error);
   });
 }
 
