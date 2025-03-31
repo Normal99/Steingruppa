@@ -320,14 +320,18 @@ function toggleRequestFields() {
   document.getElementById('add-request-fields').style.display = "none";
   document.getElementById('current-request-fields').style.display = "none";
   document.getElementById('update-request-fields').style.display = "none";
+  document.getElementById('request-message').style.display = "none"; // Hide message field initially
   
   if (type === "add") {
     document.getElementById('add-request-fields').style.display = "block";
+    document.getElementById('request-message').style.display = "block"; // Show message field
   } else if (type === "update") {
     document.getElementById('current-request-fields').style.display = "block";
     document.getElementById('update-request-fields').style.display = "block";
+    document.getElementById('request-message').style.display = "block"; // Show message field
   } else if (type === "delete") {
     document.getElementById('current-request-fields').style.display = "block";
+    document.getElementById('request-message').style.display = "block"; // Show message field
   }
 }
 
@@ -338,8 +342,14 @@ function showRequestModal() {
 }
 
 // Function to close the request modal
-function closeRequestModal() {
-  document.getElementById("request-modal").style.display = "none";
+function closeRequest() {
+  // Force all toggled sections to hide
+  document.getElementById('add-request-fields').style.display = "none";
+  document.getElementById('current-request-fields').style.display = "none";
+  document.getElementById('update-request-fields').style.display = "none";
+  document.getElementById('request-message').value = ''; // Clear message field
+  document.getElementById('request-form').reset(); // Reset entire form
+  closeRequestModal(); // Close the modal
 }
 
 // Update populateRequestForm to open the modal (design stays consistent)
