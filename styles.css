@@ -480,13 +480,16 @@ button {
 }
 
 #requests-container {
-    margin-top: 20px;
+    min-height: 20px;
+    position: relative;
+    height: 10%;
     overflow: auto; /* Hide overflow by default */
 }
 
 #requests-content {
     display: none;
     background-color: white;
+    overflow-y: auto;
 }
 
 #requests-content.show {

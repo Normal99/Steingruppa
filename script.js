@@ -21,7 +21,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // Global settings & data
-let viewMode = "table"; // "table" or "card"
+let viewMode = "card"; // "table" or "card"
 let allStones = [];      // will hold the raw stone data
 let unsubscribe;         // holds the onSnapshot unsubscribe function
 
@@ -486,10 +486,12 @@ function toggleRequests() {
       content.classList.remove('show');
       icon.textContent = '▶ Innkommende forespørsler';
       container.style.maxHeight = '50px'; // Collapsed height
+      container.style.height = '15%'; // Collapsed height
   } else {
       content.classList.add('show');
       icon.textContent = '▼ Innkommende forespørsler';
       container.style.maxHeight = '300px'; // Expanded height
+      container.style.height = '100%'; // Collapsed height
   }
 }
 
@@ -566,6 +568,13 @@ function toggleFilter() {
 // Toggle between table and card view
 function toggleView() {
   viewMode = (viewMode === "table") ? "card" : "table";
+  const toggleButton = document.querySelector('.søkeboksknapp[onclick="toggleView()"]');
+  
+  // Update button with appropriate icon
+  toggleButton.innerHTML = `<img src="bilder/${viewMode === 'table' ? 'list' : 'card'}.png" 
+                           alt="${viewMode === 'table' ? 'List View' : 'Card View'}" 
+                           style="width: 20px; height: 20px;">`;
+  
   renderView(applyFilters(allStones));
 }
 
