@@ -399,13 +399,6 @@ if (requestType === "update" || requestType === "delete") {
 showRequestModal();
 }
 
-function closeRequest() {
-  // Force all toggled sections to hide
-  document.getElementById('add-request-fields').style.display = "none";
-  document.getElementById('current-request-fields').style.display = "none";
-  document.getElementById('update-request-fields').style.display = "none";
-}
-
 // Submit the request – this creates a document in the "requests" collection
 // You may want to add additional properties like timestamp and requester info
 async function submitRequest() {
