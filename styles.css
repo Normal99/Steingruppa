@@ -582,3 +582,15 @@ table, th, td {
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
     z-index: 9999;
 }
+
+@media (max-width: 700px){
+    nav h2{
+        margin-right: 2px;
+    }
+    #shortcutT{
+        margin-left: 0;
+    }
+    #shortcutT img{
+        margin-left: 2px;
+    }
+}
