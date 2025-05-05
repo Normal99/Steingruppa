@@ -5,9 +5,9 @@ const files = [
 ];
 
 const descriptions = [
-    "Description 1",
-    "Description 2",
-    "Description 3",
+    "dette er matias som tar seg en god en i timen",
+    "dette er zesty ahh matias",
+    "Ivan struggler virkelig med netsiden",
     "Description 4",
     "Description 5"
 ];
