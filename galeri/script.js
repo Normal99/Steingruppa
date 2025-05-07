@@ -1,7 +1,8 @@
 const files = [
     'img/bilde (1).jfif',
     'img/bilde (3).jfif',
-    'img/bilde.jfif'
+    'img/bilde.jfif',
+    'img/bilde (4).jfif',
 ];
 
 const descriptions = [
