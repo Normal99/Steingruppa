@@ -131,7 +131,7 @@ function renderCards(stones) {
       <p><strong>Sted:</strong> ${item.sted || ""}</p>
       <div>
         <button onclick="deleteStone('${item.docId}')">🗑️</button>
-        <button onclick='showEditForm(${JSON.stringify(item).replace(/'/g, "&#39;")})'>✏️</button>
+        <button onclick='handleEditStoneClick(${JSON.stringify(item).replace(/'/g, "&#39;")})'>✏️</button>
       </div>
     `;
     card.addEventListener("click", (e) => {
