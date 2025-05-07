@@ -200,18 +200,11 @@ html {
         width: 100% !important; /* Ensure these take up full width */
     }
  
-    .footer1 {
-        display: none !important; /* Hide footer1 on phone layout */
-    }
+
  
     footer {
         display: flex;
         flex-direction: column;
-        background-color: var(--main);;
-        padding: 20px 0; /* Add vertical padding for spacing */
-        width: 100%;
-        position: relative;
-        box-sizing: border-box;
     }
  
     #logoFT {
@@ -223,6 +216,9 @@ html {
     #kontaktFooter {
         margin-top: 15px; /* Reduced margin for a better fit */
         font-size: 0.9rem; /* Smaller font size */
+    }
+    #footerbilde {
+        display: none;
     }
 }
  
