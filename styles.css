@@ -200,18 +200,11 @@ html {
         width: 100% !important; /* Ensure these take up full width */
     }
  
-    .footer1 {
-        display: none !important; /* Hide footer1 on phone layout */
-    }
+
  
     footer {
         display: flex;
         flex-direction: column;
-        background-color: var(--main);;
-        padding: 20px 0; /* Add vertical padding for spacing */
-        width: 100%;
-        position: relative;
-        box-sizing: border-box;
     }
  
     #logoFT {
@@ -224,7 +217,9 @@ html {
         margin-top: 15px; /* Reduced margin for a better fit */
         font-size: 0.9rem; /* Smaller font size */
     }
- 
+    #footerbilde {
+        display: none;
+    }
 }
  
 button {
@@ -371,6 +366,7 @@ button {
     overflow: auto;
     width: 100%;
     justify-content: center;
+    background-color: #ddd;
 }
 .card:hover {
     transform: scale(1.05);
@@ -385,6 +381,7 @@ button {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     text-align: center;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background-color:#f1f1f1;
 }
 #tablehead{
     cursor:pointer;
