@@ -402,58 +402,57 @@ if (requestType === "update" || requestType === "delete") {
 showRequestModal();
 }
 
-// Submit the request – this creates a document in the "requests" collection
-// You may want to add additional properties like timestamp and requester info
 async function submitRequest() {
-  const requestType = document.getElementById('request-type').value;
-  const message = document.getElementById('request-message').value.trim();
-  const stoneDocId = document.getElementById('request-stone-docid').value.trim() || null;
-  
+  const requestType = DOMPurify.sanitize(document.getElementById('request-type').value);
+  const message = DOMPurify.sanitize(document.getElementById('request-message').value.trim());
+  const stoneDocIdRaw = document.getElementById('request-stone-docid').value.trim();
+  const stoneDocId = stoneDocIdRaw ? DOMPurify.sanitize(stoneDocIdRaw) : null;
+
   let requestData = {
     type: requestType,
     message,
     stoneDocId,  // For update and delete, this will be set
     timestamp: new Date().toISOString()
   };
-  
+
   // Build details based on request type
   if (requestType === "add") {
-    const kasse = document.getElementById('req-add-kasse').value.trim();
-    const steingruppe = document.getElementById('req-add-steingruppe').value.trim();
-    const id = document.getElementById('req-add-id').value.trim();
-    const sted = document.getElementById('req-add-sted').value.trim();
+    const kasse = DOMPurify.sanitize(document.getElementById('req-add-kasse').value.trim());
+    const steingruppe = DOMPurify.sanitize(document.getElementById('req-add-steingruppe').value.trim());
+    const id = DOMPurify.sanitize(document.getElementById('req-add-id').value.trim());
+    const sted = DOMPurify.sanitize(document.getElementById('req-add-sted').value.trim());
     requestData.details = { kasse, steingruppe, id, sted };
   } else if (requestType === "update") {
     // Include both current and requested new values
     const current = {
-      kasse: document.getElementById('current-kasse').value.trim(),
-      steingruppe: document.getElementById('current-steingruppe').value.trim(),
-      id: document.getElementById('current-id').value.trim(),
-      sted: document.getElementById('current-sted').value.trim()
+      kasse: DOMPurify.sanitize(document.getElementById('current-kasse').value.trim()),
+      steingruppe: DOMPurify.sanitize(document.getElementById('current-steingruppe').value.trim()),
+      id: DOMPurify.sanitize(document.getElementById('current-id').value.trim()),
+      sted: DOMPurify.sanitize(document.getElementById('current-sted').value.trim())
     };
     const requested = {
-      kasse: document.getElementById('req-new-kasse').value.trim(),
-      steingruppe: document.getElementById('req-new-steingruppe').value.trim(),
-      id: document.getElementById('req-new-id').value.trim(),
-      sted: document.getElementById('req-new-sted').value.trim()
+      kasse: DOMPurify.sanitize(document.getElementById('req-new-kasse').value.trim()),
+      steingruppe: DOMPurify.sanitize(document.getElementById('req-new-steingruppe').value.trim()),
+      id: DOMPurify.sanitize(document.getElementById('req-new-id').value.trim()),
+      sted: DOMPurify.sanitize(document.getElementById('req-new-sted').value.trim())
     };
     requestData.details = { current, requested };
   } else if (requestType === "delete") {
     // For deletion, the current details are enough
     requestData.details = {
-      kasse: document.getElementById('current-kasse').value.trim(),
-      steingruppe: document.getElementById('current-steingruppe').value.trim(),
-      id: document.getElementById('current-id').value.trim(),
-      sted: document.getElementById('current-sted').value.trim()
+      kasse: DOMPurify.sanitize(document.getElementById('current-kasse').value.trim()),
+      steingruppe: DOMPurify.sanitize(document.getElementById('current-steingruppe').value.trim()),
+      id: DOMPurify.sanitize(document.getElementById('current-id').value.trim()),
+      sted: DOMPurify.sanitize(document.getElementById('current-sted').value.trim())
     };
   }
-  
+
   // Validation – ensure a type is selected and necessary fields are filled:
   if (!requestType) {
     alert("Velg en forespørselstype før du sender");
     return;
   }
-  
+
   // Now, add the request document in Firestore (assuming Firestore is already initialized as db)
   try {
     await addDoc(collection(db, "requests"), requestData);
