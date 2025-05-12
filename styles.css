@@ -172,7 +172,7 @@ html {
     scroll-behavior: smooth;
   }
 
-#oppdrag, #sprak, #profilH, #kontakt {
+#oppdrag, #sprak, #profilH, #kontakt, #show-video-button {
     background-color: var(--main);;
     border: 0;
     font-size: larger;
@@ -590,6 +590,41 @@ table, th, td {
     padding: 20px;
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
     z-index: 9999;
+}
+
+/* Modal styles */
+#video-modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+#video-modal .modal-content {
+    position: relative;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 90%;
+    max-height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#video-modal .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    color: #000;
+    cursor: pointer;
 }
 
 @media (max-width: 700px){
