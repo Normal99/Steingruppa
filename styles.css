@@ -606,6 +606,11 @@ table, th, td {
     align-items: center;
 }
 
+#video-player {
+    width: 100%; /* Make the video take up the full width of the modal */
+    max-width: 800px; /* Limit the maximum width */
+    height: auto; /* Maintain aspect ratio */
+}
 #video-modal .modal-content {
     position: relative;
     background: #fff;
