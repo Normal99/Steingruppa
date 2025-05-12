@@ -2,6 +2,17 @@
     animation: 0.5s fadein;
 }
 
+html{
+    scroll-behavior: smooth;
+    font-size: 16px; /* Base font size */
+    background-color: #f0f0f0; /* Light gray background */
+    color: #333; /* Dark text color */
+}
+html, body {
+    overflow-x: hidden;
+  }
+  
+
 :root{
     --main: #4C8690;
 }
@@ -13,6 +24,7 @@ body {
     overflow-x: hidden;
     font-family: "Nunito", serif;
     width: 100%;
+    overflow-x: hidden;
 } 
 /* Dropdown Button */
 
@@ -176,9 +188,6 @@ html {
  
 /* Mobile Layout Adjustments */
 @media screen and (max-width: 768px) {
-    header {
-        display: none !important; /* Hide the header on small screens */
-    }
    
     #hoved {
         flex-direction: column !important;
@@ -191,18 +200,11 @@ html {
         width: 100% !important; /* Ensure these take up full width */
     }
  
-    .footer1 {
-        display: none !important; /* Hide footer1 on phone layout */
-    }
+
  
     footer {
         display: flex;
         flex-direction: column;
-        background-color: var(--main);;
-        padding: 20px 0; /* Add vertical padding for spacing */
-        width: 100%;
-        position: relative;
-        box-sizing: border-box;
     }
  
     #logoFT {
@@ -215,7 +217,9 @@ html {
         margin-top: 15px; /* Reduced margin for a better fit */
         font-size: 0.9rem; /* Smaller font size */
     }
- 
+    #footerbilde {
+        display: none;
+    }
 }
  
 button {
@@ -356,9 +360,13 @@ button {
 #data-table{
     width: 100%;
     text-align: center;
+
 }
 #cards-container{
     overflow: auto;
+    width: 100%;
+    justify-content: center;
+    background-color: #ddd;
 }
 .card:hover {
     transform: scale(1.05);
@@ -373,10 +381,12 @@ button {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     text-align: center;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background-color:#f1f1f1;
 }
 #tablehead{
     cursor:pointer;
 }
+
 
 @media screen and (min-width: 768px) {
     #sok {
@@ -386,6 +396,7 @@ button {
 }
 #stein-samling {
     display: block; /* Ensure the table container is visible */
+    padding:10px;
 }    
 /* Minimal Modal Styles */ /* midlertidig css fra gpt */
 .modal {
@@ -500,7 +511,7 @@ button {
     top: 0;
     padding: 10px;
     z-index: 2;
-    background-color: white;
+    background-color: #ddd;
     cursor: pointer;
 }
   #requests-table {
