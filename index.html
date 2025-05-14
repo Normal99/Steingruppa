@@ -17,11 +17,11 @@
         <div class = "headMain">
             <div class = "head-v">
                 <button id = "oppdrag">Vårt oppdrag</button>
-                <button id = "sprak">Brukerveiledning</button>
+                <button id="show-video-button">Brukerveiledning</button>
             </div>
             <div class = "head-h">
                 <button id = "kontakt"><a href="#footer" id="link">Kontakt oss</a></button>
-                <button id = "profilH">Language</button>
+                <button id = "sprak">Language</button>
             </div>
         </div>
     </header>
@@ -208,6 +208,16 @@
         <div id="modal-body">
             <!-- Stone details will be injected here -->
         </div>
+    </div>
+</div>
+<!-- Video Modal -->
+<div id="video-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="close-video-modal">&times;</span>
+        <video id="video-player" width="800" height="450" controls>
+            <source src="Video/SteinerAdmin Tutorial.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
     </div>
 </div>
     <footer id="footer">

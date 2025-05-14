@@ -594,6 +594,31 @@ function toggleView() {
   renderView(applyFilters(allStones));
 }
 
+
+// TUTORIAL greier
+document.getElementById("show-video-button").addEventListener("click", function () {
+    const modal = document.getElementById("video-modal");
+    modal.style.display = "flex"; // Show the modal
+});
+
+document.getElementById("close-video-modal").addEventListener("click", function () {
+    const modal = document.getElementById("video-modal");
+    modal.style.display = "none"; // Hide the modal
+    const iframe = document.getElementById("video-frame");
+    iframe.src = iframe.src; // Reset the video to stop playback
+});
+
+// Close the modal when clicking outside the content
+window.addEventListener("click", function (event) {
+    const modal = document.getElementById("video-modal");
+    if (event.target === modal) {
+        modal.style.display = "none";
+        const iframe = document.getElementById("video-frame");
+        iframe.src = iframe.src; // Reset the video to stop playback
+    }
+});
+
+
 // ---------- EVENT LISTENERS ----------
 
 // Re-render view on filter input changes
@@ -629,3 +654,4 @@ window.addEventListener("load", () => {
   subscribeToStones();
   subscribeToRequests();
 });
+
