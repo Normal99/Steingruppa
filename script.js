@@ -439,6 +439,7 @@ function removeRequestFromTable(docId) {
   if (row) {
     row.remove();
   }
+  subscribeToRequests(); // Refresh the request list
 }
 
 function editRequest(docId) {
