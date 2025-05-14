@@ -458,7 +458,8 @@ async function submitRequest() {
     await addDoc(collection(db, "requests"), requestData);
     alert("Forespørsel sendt!");
     document.getElementById("request-form").reset();
-    // Optionally hide fields after submission
+    closeRequestModal();
+    closeModal();
     toggleRequestFields();
   } catch (error) {
     console.error("Error submitting request:", error);
