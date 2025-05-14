@@ -508,12 +508,12 @@ function toggleRequests() {
       content.classList.remove('show');
       icon.textContent = '▶ Innkommende forespørsler';
       container.style.maxHeight = '50px'; // Collapsed height
-      container.style.height = '15%'; // Collapsed height
+      container.style.height = '20%'; // Collapsed height
   } else {
       content.classList.add('show');
       icon.textContent = '▼ Innkommende forespørsler';
       container.style.maxHeight = '300px'; // Expanded height
-      container.style.height = '100%'; // Collapsed height
+      container.style.height = '200%'; // Collapsed height
   }
 }
 

@@ -491,7 +491,7 @@ button {
 }
 
 #requests-container {
-    min-height: 20px;
+    min-height: 40px;
     position: relative;
     height: 10%;
     overflow: auto; /* Hide overflow by default */
