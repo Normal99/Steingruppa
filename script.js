@@ -492,6 +492,10 @@ function showRequestModal() {
 }
 
 function closeRequestModal() {
+  const modal = document.getElementById("modal");
+  if (modal.style.display === "block") {
+    closeModal();
+  }
   document.getElementById('request-modal').style.display = 'none';
 }
 
