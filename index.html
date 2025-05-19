@@ -1,3 +1,4 @@
+<!-- Hovedoppsett for nettsiden -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
 </head>
 <body>
+     <!-- Toppmeny med knapper for oppdrag, brukerveiledning, språk og kontakt -->
     <header>
         <div class = "headMain">
             <div class = "head-v">
@@ -25,6 +27,8 @@
             </div>
         </div>
     </header>
+
+    <!-- Navigasjon med logo og tittel -->
     <nav>
         <a href = "https://telemarkfylke.no" id = "shortcutT">
             <img src="bilder/t_logo_02_sidestilt_rgb.png" alt="Telemarklogo" id="logo">
@@ -32,20 +36,24 @@
         <h2>Stein-gruppa</h2>
     </nav>
     
+    <!-- Horisontal linje -->
     <div id = "line">
         <hr class = "underline">
     </div>
 
+    <!-- Hovedinnhold -->
     <div id="hoved">
         <div id="sok">
-                <div class="search-field">
-                    <input type="text" name="q" class="search__input" id="søkefelt" aria-label="Søk på hele databaset" placeholder="Søk" autocomplete="off">
-                    <button type="submit" class="search__submit-button" aria-label="Søk på hele nettstedet">
-                    </button>
+                <!-- Søkefelt og knapper for å legge til, filtrere og bytte visning -->
+            <div class="search-field">
+                <input type="text" name="q" class="search__input" id="søkefelt" aria-label="Søk på hele databaset" placeholder="Søk" autocomplete="off">
+                <button type="submit" class="search__submit-button" aria-label="Søk på hele nettstedet"></button>
                 <button class="søkeboksknapp" id="leggtilKnapp" onclick="populateRequestForm({}, 'add')"><img src="bilder/pluss.png" alt="Legg til stein."></button>
                 <button class="søkeboksknapp" id="filterknapp" onclick="toggleFilter()"><img src="bilder/filter.png" alt="Filtrer steiner"></button>
                 <button class="søkeboksknapp" id="toggle-view-button" onclick="toggleView()" ><img src="bilder/list.png" alt="Bytt visning"></button>
             </div>
+
+            <!-- Filtermeny (skjult som standard) -->
             <div id="filters" style="display: none;">
               <input type="text" class="filter"  id="filter-kasse" placeholder="Filtrer med Kasse">
               <input type="text" class="filter" id="filter-steingruppe" placeholder="Filtrer med Steingruppe">
@@ -65,6 +73,8 @@
               </div>
               <button id="clear-filters" onclick="clearFilters()">Tøm og røm</button>
             </div>
+
+            <!-- Skjema for å legge til ny stein (skjult som standard) -->
             <div id="ekstrating">
                 <div id="add-stone-form" style="display: none;">
                     <h2>Legg til ny stein</h2>
@@ -83,6 +93,7 @@
                     <button id="addStone" onclick="addStone()">Legg til stein</button>
                 </div>
             </div>
+
             <!-- Advanced Request System -->
             <div id="request-modal" class="modal" style="display:none;">
               <div class="modal-content">
@@ -155,9 +166,13 @@
                 </div>
               </div>
             </div>
+
+            <!-- Kortvisning (skjult som standard) -->
             <div id="cards-container" style="display: none;">
                 <h1>test</h1>
             </div>
+
+            <!-- Tabellvisning av steiner -->
             <div id="stein-samling">
                 <table id="data-table">
                     <thead>
@@ -177,7 +192,8 @@
         </div>
         </div>
     </div>
-    <!-- Modal for stone details -->
+
+<!-- Modal for detaljer om stein -->
 <div id="modal" class="modal" style="display:none;">
     <div class="modal-content">
         <span class="close" id="modal-close" onclick="closeModal()">&times;</span>
@@ -186,7 +202,8 @@
         </div>
     </div>
 </div>
-<!-- Video Modal -->
+
+<!-- Modal for brukerveiledningsvideo -->
 <div id="video-modal" class="modal">
     <div class="modal-content">
         <span class="close" id="close-video-modal">&times;</span>
@@ -230,6 +247,9 @@
             </svg>
         </div>
     </footer>
+
+
+    <!-- Eksterne javascript -->
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
     <script type="module" src="script.js"></script>
 </body>

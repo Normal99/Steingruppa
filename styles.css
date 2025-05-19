@@ -172,13 +172,13 @@ html {
     scroll-behavior: smooth;
   }
 
-#oppdrag, #sprak, #profilH, #kontakt, #show-video-button {
+#oppdrag, #sprak, #kontakt, #show-video-button {
     background-color: var(--main);;
     border: 0;
     font-size: larger;
 }
 
-#oppdrag:hover, #sprak:hover, #profilH:hover, #kontakt:hover {
+#oppdrag:hover, #sprak:hover, #show-video-button:hover, #kontakt:hover {
     text-decoration: underline;
     text-underline-offset: 5px;
 }
