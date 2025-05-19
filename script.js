@@ -149,7 +149,7 @@ function renderCards(stones) {
     const card = document.createElement("div");
     card.classList.add("card");
     card.innerHTML = `
-      <img src="./bilder/placeholder.png" alt="Stein" style="width:100%; border-radius: 4px;">
+      <img src="https://public.keskofiles.com/f/btt/ASSET_MISC_23811313?auto=format&bg=fff&dpr=1&fit=fill&h=558&q=80&w=558" alt="Stein" style="width:100%; border-radius: 4px;">
       <h3>${item.steingruppe || "Ukjent"}</h3>
       <p><strong>Kasse:</strong> ${item.kasse || ""}</p>
       <p><strong>ID:</strong> ${item.id || ""}</p>
